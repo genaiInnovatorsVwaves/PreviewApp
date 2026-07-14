@@ -6,7 +6,7 @@ export default function Home() {
     <div className="app">
       <header className="hero">
         <h1>Preview App</h1>
-        <p>Pick a preview — or go straight to /ES, /NS, or /OS in the URL.</p>
+        <p>Pick a preview — or jump straight to any track via its URL (e.g. /ESI).</p>
       </header>
 
       <section>
