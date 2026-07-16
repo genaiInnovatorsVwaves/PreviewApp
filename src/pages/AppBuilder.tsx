@@ -18,12 +18,26 @@ const THINK_TABS = [
   { key: "persona", label: "Persona" },
 ];
 
+// Product Lifecycle Management is shared across nsi/osi/esi, but each platform's real deployment
+// lives at a different URL — resolve which one to open based on which catalog route linked here.
+const PLC_PREVIEW_URLS: Record<string, string> = {
+  nsi: "https://apps.visionwaves.com/netsingularity/pb-router/router/product-life-cycle?data=eyJkYXRhIjoiOTg3NjU0dXktMyJ9",
+  osi: "https://apps.visionwaves.com/opssingularity/pb-router/router/product-life-cycle?data=eyJkYXRhIjoiOTg3NjU0dXktMyJ9",
+  esi: "https://apps.visionwaves.com/enterprisesingularitysingularity/pb-router/router/product-life-cycle?data=eyJkYXRhIjoiOTg3NjU0dXktMyJ9",
+};
+
 export default function AppBuilder() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const backTo = (location.state as { from?: string } | null)?.from ?? "/";
-  const data = useMemo(() => (id ? getAppData(id) : undefined), [id]);
+  const rawData = useMemo(() => (id ? getAppData(id) : undefined), [id]);
+  const data = useMemo(() => {
+    if (!rawData || rawData.id !== "product-lifecycle-management") return rawData;
+    const platform = backTo.toLowerCase().replace(/\//g, "");
+    const url = PLC_PREVIEW_URLS[platform];
+    return url ? { ...rawData, externalPreviewUrl: url } : rawData;
+  }, [rawData, backTo]);
   const [stage, setStage] = useState<Stage>("think");
   const [tab, setTab] = useState("overview");
 

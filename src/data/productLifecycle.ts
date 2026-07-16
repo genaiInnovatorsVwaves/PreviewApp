@@ -6,6 +6,7 @@ export const productLifecycle: AppData = {
   title: "Product Lifecycle Management",
   tagline: "A requirements-to-release traceability platform — products, modules, requirements, test coverage, and defects on one auditable data model",
   kind: "structured",
+  externalPreviewUrl: "https://apps.visionwaves.com/netsingularity/pb-router/router/product-life-cycle?data=eyJkYXRhIjoiOTg3NjU0dXktMyJ9",
   chat: [
     { role: "user", text: "We need a platform that gives us full traceability from requirements through test coverage to defects to the release they ship in — right now nothing links up." },
     { role: "ai", text: "I don't want to scaffold this off a one-line brief — traceability touches every product team's daily workflow and any audit you'll ever face. Let's work through five areas: Overview, Architecture, Use Cases, Entities, and Persona. Starting with Overview — what's actually forcing this now?" },

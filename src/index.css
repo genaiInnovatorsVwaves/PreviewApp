@@ -1,55 +1,66 @@
+/* NST Design System — Vision Waves enterprise UI tokens + components (nst-design-system-main) */
+@import "./styles/nst/nst-design-system.css";
+@import "./styles/nst/components.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Landing page — Code Singularity brand theme (RGB triples so Tailwind opacity modifiers work) */
-  --background: 249 250 251;
-  --foreground: 15 23 42;
+  /* Code Singularity brand theme — remapped onto the NST design system's tokens
+     (theme-tokens.css: primaryColor500 #1C81EF, gray/slate-25 white/gray-50 surfaces, radius-lg 1rem). */
+  --background: 250 250 250;
+  --foreground: 17 24 39;
   --card: 255 255 255;
-  --card-foreground: 15 23 42;
-  --border: 226 232 240;
-  --input: 226 232 240;
-  --primary: 37 99 235;
+  --card-foreground: 17 24 39;
+  --border: 229 231 235;
+  --input: 229 231 235;
+  --primary: 28 129 239;
   --primary-foreground: 255 255 255;
   --secondary: 239 246 255;
-  --secondary-foreground: 37 99 235;
-  --muted: 241 245 249;
-  --muted-foreground: 100 116 139;
-  --accent: 37 99 235;
+  --secondary-foreground: 28 129 239;
+  --muted: 245 245 245;
+  --muted-foreground: 107 114 128;
+  --accent: 28 129 239;
   --accent-foreground: 255 255 255;
-  --ring: 37 99 235;
-  --radius: 0.65rem;
+  --ring: 28 129 239;
+  --radius: 1rem;
 }
 
 .builder-theme {
-  /* App Builder — real theme captured from the live v0 app (neutral, light) */
+  /* App Builder shell — same NST brand tokens as the landing theme, for a single consistent identity. */
   --background: 255 255 255;
-  --foreground: 10 10 10;
+  --foreground: 17 24 39;
   --card: 255 255 255;
-  --card-foreground: 10 10 10;
-  --border: 229 229 229;
-  --input: 229 229 229;
-  --primary: 23 23 23;
-  --primary-foreground: 250 250 250;
-  --secondary: 245 245 245;
-  --secondary-foreground: 23 23 23;
+  --card-foreground: 17 24 39;
+  --border: 229 231 235;
+  --input: 229 231 235;
+  --primary: 28 129 239;
+  --primary-foreground: 255 255 255;
+  --secondary: 239 246 255;
+  --secondary-foreground: 28 129 239;
   --muted: 245 245 245;
-  --muted-foreground: 115 115 115;
-  --accent: 245 245 245;
-  --accent-foreground: 23 23 23;
-  --ring: 161 161 161;
-  --radius: 0.625rem;
+  --muted-foreground: 107 114 128;
+  --accent: 239 246 255;
+  --accent-foreground: 28 129 239;
+  --ring: 28 129 239;
+  --radius: 1rem;
 }
 
 * {
   border-color: rgb(var(--border));
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   background-color: rgb(var(--background));
   color: rgb(var(--foreground));
-  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -89,7 +89,7 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
             <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-slate-900">
               <GitBranch className="size-5 text-white" />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">Codebase Documentation Agent</h2>
+            <h2 className="text-xl font-bold text-slate-900">Modernize App</h2>
           </div>
           <button
             type="button"
@@ -135,7 +135,7 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
                 onClick={startAnalysis}
                 className="rounded-lg bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
               >
-                Analyze Repository
+                Modernize
               </button>
             </div>
           </>
