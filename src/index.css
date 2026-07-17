@@ -28,22 +28,22 @@
 }
 
 .builder-theme {
-  /* App Builder shell — same NST brand tokens as the landing theme, for a single consistent identity. */
+  /* App Builder detail pages — black & white only, no blue accent. */
   --background: 255 255 255;
-  --foreground: 17 24 39;
+  --foreground: 10 10 10;
   --card: 255 255 255;
-  --card-foreground: 17 24 39;
-  --border: 229 231 235;
-  --input: 229 231 235;
-  --primary: 28 129 239;
+  --card-foreground: 10 10 10;
+  --border: 229 229 229;
+  --input: 229 229 229;
+  --primary: 10 10 10;
   --primary-foreground: 255 255 255;
-  --secondary: 239 246 255;
-  --secondary-foreground: 28 129 239;
+  --secondary: 245 245 245;
+  --secondary-foreground: 10 10 10;
   --muted: 245 245 245;
-  --muted-foreground: 107 114 128;
-  --accent: 239 246 255;
-  --accent-foreground: 28 129 239;
-  --ring: 28 129 239;
+  --muted-foreground: 115 115 115;
+  --accent: 245 245 245;
+  --accent-foreground: 10 10 10;
+  --ring: 161 161 161;
   --radius: 1rem;
 }
 
