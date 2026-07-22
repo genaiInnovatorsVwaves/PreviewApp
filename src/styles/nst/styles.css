@@ -1,0 +1,33 @@
+/* ============================================================
+   Vision Waves / NST Design System — single stylesheet entry
+   Imported from claude.ai/design project d8a40eb6-2422-43a5-b066-482933bc55b2
+   ("Vision Waves Design System"). Mirrors the source project's own
+   styles.css so this stays a faithful, re-syncable copy.
+
+   Closure (load order mirrors the DS's own bundle):
+     1. fonts/fonts.css        — self-hosted Poppins (@font-face)
+     2. tokens/colors.css      — --vw-color-* primitives
+     3. tokens/spacing.css     — --vw-space-*, --vw-radius-*
+     4. tokens/typography-tokens.css — --vw-font-*, --vw-line-*, --fontFamily
+     5. tokens/theme-tokens.css      — --grayColor*, --primaryColor*, sets body font
+     6. css/vw-cards.css       — .vw-card-* dashboard/KPI classes
+     7. css/vw-chips.css       — .vw-chip-* status chips
+     8. css/vw-utilities.css   — .vw-flex, .vw-grid, .vw-page-gap, gap/spacing
+     9. css/components.css     — .nst-* form/input/table/button primitives
+
+   Themes (assets/theme-*.css in the source project) are scoped overrides,
+   NOT part of this base closure — apply data-theme="blue|black|green" on
+   any container and import the matching themes/theme-*.css alongside this.
+   ============================================================ */
+
+@import "./fonts/fonts.css";
+
+@import "./tokens/colors.css";
+@import "./tokens/spacing.css";
+@import "./tokens/typography-tokens.css";
+@import "./tokens/theme-tokens.css";
+
+@import "./css/vw-cards.css";
+@import "./css/vw-chips.css";
+@import "./css/vw-utilities.css";
+@import "./css/components.css";

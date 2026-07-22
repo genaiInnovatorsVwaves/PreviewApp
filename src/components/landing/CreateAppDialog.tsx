@@ -39,52 +39,64 @@ export function CreateAppDialog({ open, onClose }: { open: boolean; onClose: () 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6" onClick={handleClose}>
-      <div className="no-scrollbar max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-[28px] bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-6 pt-6">
-          <div className="flex items-center gap-3">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-slate-900">
-              <Grid2x2Plus className="size-5 text-white" />
+      <div
+        className="no-scrollbar max-h-[90vh] w-full max-w-xl overflow-y-auto"
+        style={{ borderRadius: "var(--vw-radius-xl)", background: "var(--vw-color-white)", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="vw-flex vw-items-center vw-justify-between" style={{ padding: "24px 24px 0" }}>
+          <div className="vw-flex vw-items-center vw-gap-sm">
+            <div
+              className="flex size-11 shrink-0 items-center justify-center rounded-full"
+              style={{ background: "var(--vw-color-gray-900)" }}
+            >
+              <Grid2x2Plus className="size-5" style={{ color: "var(--vw-color-white)" }} />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">Application Builder Agent</h2>
+            <h2 className="vw-card-title-lg">Application Builder Agent</h2>
           </div>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-          >
-            <X className="size-5" />
+          <button type="button" onClick={handleClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
+            <X className="size-4" />
           </button>
         </div>
 
-        <div className="px-6 pt-5">
-          <div className="flex items-center gap-2.5 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-600">
+        <div style={{ padding: "20px 24px 0" }}>
+          <div
+            className="vw-card-section vw-card--info vw-flex vw-items-center vw-gap-sm"
+            style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-sky-700)" }}
+          >
             <Sparkles className="size-4 shrink-0" />
             Describe your application &amp; we&apos;ll help you build it with AI
           </div>
         </div>
 
-        <div className="space-y-5 px-6 pb-6 pt-5">
+        <div className="vw-flex vw-flex-col vw-gap-xl" style={{ padding: "20px 24px 24px" }}>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-800">
-              Name <span className="text-red-500">*</span>
+            <label className="nst-input-label" style={{ display: "block", marginBottom: "6px" }}>
+              Name <span style={{ color: "var(--vw-color-red-500)" }}>*</span>
             </label>
-            <div className="relative">
+            <div className="nst-input-shell">
               <input
                 type="text"
                 value={name}
                 maxLength={NAME_MAX}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter name of application"
-                className="w-full rounded-lg border border-slate-200 py-2.5 pl-3.5 pr-10 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
               />
-              <CircleHelp className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-300" />
+              <i className="nst-input-icon">
+                <CircleHelp className="size-4" />
+              </i>
             </div>
-            <div className="mt-1 text-right text-xs text-slate-400">{name.length} / {NAME_MAX}</div>
+            <div
+              className="vw-flex vw-justify-end"
+              style={{ marginTop: "4px", fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}
+            >
+              {name.length} / {NAME_MAX}
+            </div>
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-800">
-              Display name <span className="text-red-500">*</span>
+            <label className="nst-input-label" style={{ display: "block", marginBottom: "6px" }}>
+              Display name <span style={{ color: "var(--vw-color-red-500)" }}>*</span>
             </label>
             <input
               type="text"
@@ -92,29 +104,41 @@ export function CreateAppDialog({ open, onClose }: { open: boolean; onClose: () 
               maxLength={DISPLAY_NAME_MAX}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="Enter display name of the application"
-              className="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
+              className="nst-input"
             />
-            <div className="mt-1 text-right text-xs text-slate-400">{displayName.length} / {DISPLAY_NAME_MAX}</div>
+            <div
+              className="vw-flex vw-justify-end"
+              style={{ marginTop: "4px", fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}
+            >
+              {displayName.length} / {DISPLAY_NAME_MAX}
+            </div>
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-800">
-              Description <span className="text-red-500">*</span>
+            <label className="nst-input-label" style={{ display: "block", marginBottom: "6px" }}>
+              Description <span style={{ color: "var(--vw-color-red-500)" }}>*</span>
             </label>
-            <textarea
-              value={description}
-              maxLength={DESCRIPTION_MAX}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter the description of application"
-              rows={4}
-              className="w-full resize-none rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
-            />
-            <div className="mt-1 text-right text-xs text-slate-400">{description.length} / {DESCRIPTION_MAX}</div>
+            <div className="nst-textarea-wrap">
+              <textarea
+                value={description}
+                maxLength={DESCRIPTION_MAX}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter the description of application"
+                rows={4}
+                className="nst-textarea"
+                style={{ resize: "none" }}
+              />
+              <div className="nst-textarea-footer">
+                <span className="nst-textarea-counter">
+                  {description.length}/{DESCRIPTION_MAX}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-800">
-              Upload Business Documents (ZIP) <span className="text-red-500">*</span>
+            <label className="nst-input-label" style={{ display: "block", marginBottom: "6px" }}>
+              Upload documents <span style={{ color: "var(--vw-color-red-500)" }}>*</span>
             </label>
             <button
               type="button"
@@ -129,17 +153,34 @@ export function CreateAppDialog({ open, onClose }: { open: boolean; onClose: () 
                 setDragOver(false);
                 handleFiles(e.dataTransfer.files);
               }}
-              className={cn(
-                "flex w-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed px-4 py-6 text-center transition-colors",
-                dragOver ? "border-slate-400 bg-slate-50" : "border-slate-200 hover:bg-slate-50"
-              )}
+              className="vw-flex vw-flex-col vw-items-center vw-justify-center vw-gap-sm text-center"
+              style={{
+                width: "100%",
+                padding: "20px 32px",
+                borderRadius: "var(--vw-radius-sm)",
+                border: `1px solid ${dragOver ? "var(--vw-color-accent-500)" : "var(--vw-color-gray-200)"}`,
+                background: dragOver ? "var(--vw-color-accent-50)" : "var(--vw-color-white)",
+                transition: "border-color 150ms ease, background 150ms ease",
+              }}
             >
-              <FileArchive className="mb-1 size-6 text-slate-300" />
+              <span
+                className="vw-flex vw-items-center vw-justify-center"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "var(--vw-radius-md)",
+                  border: "1px solid var(--vw-color-gray-200)",
+                  color: dragOver ? "var(--vw-color-accent-500)" : "var(--vw-color-gray-400)",
+                }}
+              >
+                <FileArchive className="size-5" />
+              </span>
               {fileName ? (
-                <span className="text-sm font-medium text-slate-700">{fileName}</span>
+                <span style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>{fileName}</span>
               ) : (
-                <span className="text-sm text-slate-500">
-                  drag and drop or <span className="font-semibold text-slate-800">Browse file</span>
+                <span style={{ fontSize: "var(--vw-font-label-md)", color: "var(--vw-color-gray-500)" }}>
+                  drag and drop or{" "}
+                  <span style={{ fontWeight: 500, color: "var(--vw-color-gray-800)" }}>Browse file</span>
                 </span>
               )}
             </button>
@@ -150,26 +191,22 @@ export function CreateAppDialog({ open, onClose }: { open: boolean; onClose: () 
               className="hidden"
               onChange={(e) => handleFiles(e.target.files)}
             />
-            <div className="mt-1 text-xs text-slate-400">.zip</div>
+            <div style={{ marginTop: "4px", fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>.zip</div>
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-          >
+        <div
+          className="vw-flex vw-items-center vw-justify-between"
+          style={{ padding: "16px 24px", borderTop: "1px solid var(--vw-color-gray-100)" }}
+        >
+          <button type="button" onClick={handleClose} className="nst-btn">
             Back
           </button>
           <button
             type="button"
             disabled={!canCreate}
             onClick={handleClose}
-            className={cn(
-              "rounded-lg px-6 py-2.5 text-sm font-semibold transition-colors",
-              canCreate ? "bg-slate-900 text-white hover:bg-slate-800" : "cursor-not-allowed bg-slate-100 text-slate-400"
-            )}
+            className={cn("nst-btn", canCreate ? "nst-btn--filled" : "is-disabled")}
           >
             Create
           </button>

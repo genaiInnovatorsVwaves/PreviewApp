@@ -81,27 +81,27 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6" onClick={handleClose}>
       <div
-        className="no-scrollbar max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[28px] bg-white shadow-2xl"
+        className="no-scrollbar max-h-[90vh] w-full max-w-2xl overflow-y-auto"
+        style={{ borderRadius: "var(--vw-radius-xl)", background: "var(--vw-color-white)", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 pt-6">
-          <div className="flex items-center gap-3">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-slate-900">
-              <GitBranch className="size-5 text-white" />
+        <div className="vw-flex vw-items-center vw-justify-between" style={{ padding: "24px 24px 0" }}>
+          <div className="vw-flex vw-items-center vw-gap-sm">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-full" style={{ background: "var(--vw-color-gray-900)" }}>
+              <GitBranch className="size-5" style={{ color: "var(--vw-color-white)" }} />
             </div>
-            <h2 className="text-xl font-bold text-slate-900">Modernize App</h2>
+            <h2 className="vw-card-title-lg">Modernize App</h2>
           </div>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-          >
-            <X className="size-5" />
+          <button type="button" onClick={handleClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
+            <X className="size-4" />
           </button>
         </div>
 
-        <div className="px-6 pt-5">
-          <div className="flex items-center gap-2.5 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-600">
+        <div style={{ padding: "20px 24px 0" }}>
+          <div
+            className="vw-card-section vw-card--info vw-flex vw-items-center vw-gap-sm"
+            style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-sky-700)" }}
+          >
             <Sparkles className="size-4 shrink-0" />
             Point us at a Git repository & we&apos;ll reverse-engineer its documentation
           </div>
@@ -109,32 +109,29 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
 
         {phase === "input" && (
           <>
-            <div className="space-y-2 px-6 pb-6 pt-5">
-              <label className="mb-1.5 block text-sm font-medium text-slate-800">
-                Repository URL <span className="text-red-500">*</span>
+            <div className="vw-flex vw-flex-col vw-gap-xs" style={{ padding: "20px 24px 24px" }}>
+              <label className="nst-input-label" style={{ display: "block" }}>
+                Repository URL <span style={{ color: "var(--vw-color-red-500)" }}>*</span>
               </label>
               <input
                 type="text"
                 value={repoUrl}
                 onChange={(e) => setRepoUrl(e.target.value)}
                 placeholder={DEFAULT_REPO}
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                className="nst-input"
               />
-              <p className="text-xs text-slate-400">We&apos;ll clone, parse, and analyze the codebase — no code leaves your environment.</p>
+              <p style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>
+                We&apos;ll clone, parse, and analyze the codebase — no code leaves your environment.
+              </p>
             </div>
-            <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-              >
+            <div
+              className="vw-flex vw-items-center vw-justify-between"
+              style={{ padding: "16px 24px", borderTop: "1px solid var(--vw-color-gray-100)" }}
+            >
+              <button type="button" onClick={handleClose} className="nst-btn">
                 Back
               </button>
-              <button
-                type="button"
-                onClick={startAnalysis}
-                className="rounded-lg bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
-              >
+              <button type="button" onClick={startAnalysis} className="nst-btn nst-btn--filled">
                 Modernize
               </button>
             </div>
@@ -142,34 +139,44 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
         )}
 
         {(phase === "analyzing" || phase === "done") && (
-          <div className="px-6 pb-6 pt-6">
-            <div className="mb-1 text-sm text-slate-500">
-              Analyzing <span className="font-mono font-medium text-slate-700">{repoUrl.trim() || DEFAULT_REPO}</span>
+          <div style={{ padding: "24px" }}>
+            <div className="mb-1" style={{ fontSize: "var(--vw-font-label-md)", color: "var(--vw-color-gray-500)" }}>
+              Analyzing{" "}
+              <span className="font-mono" style={{ fontWeight: 500, color: "var(--vw-color-gray-700)" }}>
+                {repoUrl.trim() || DEFAULT_REPO}
+              </span>
             </div>
 
             <div className="mt-6 flex items-start">
               {PROCESS_STEPS.map((step, i) => {
                 const state = i < stepIndex || phase === "done" ? "done" : i === stepIndex ? "active" : "pending";
+                const accent = "var(--color-primary, var(--vw-color-accent-500))";
                 return (
                   <div key={i} className="flex flex-1 flex-col items-center text-center">
                     <div className="flex w-full items-center">
-                      <span className={cn("h-0.5 flex-1", i === 0 ? "bg-transparent" : state !== "pending" ? "bg-blue-500" : "bg-slate-200")} />
+                      <span className="h-0.5 flex-1" style={{ background: i === 0 ? "transparent" : state !== "pending" ? accent : "var(--vw-color-gray-200)" }} />
                       <span
-                        className={cn(
-                          "flex size-8 shrink-0 items-center justify-center rounded-full transition-colors",
-                          state === "pending" ? "bg-slate-100 text-slate-400" : "bg-blue-500 text-white"
-                        )}
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full transition-colors"
+                        style={{
+                          background: state === "pending" ? "var(--vw-color-gray-100)" : accent,
+                          color: state === "pending" ? "var(--vw-color-gray-400)" : "#fff",
+                        }}
                       >
-                        {state === "pending" ? <span className="size-1.5 rounded-full bg-slate-400" /> : <CircleCheck className="size-4" />}
+                        {state === "pending" ? (
+                          <span className="size-1.5 rounded-full" style={{ background: "var(--vw-color-gray-400)" }} />
+                        ) : (
+                          <CircleCheck className="size-4" />
+                        )}
                       </span>
                       <span
-                        className={cn(
-                          "h-0.5 flex-1",
-                          i === PROCESS_STEPS.length - 1 ? "bg-transparent" : state === "done" ? "bg-blue-500" : "bg-slate-200"
-                        )}
+                        className="h-0.5 flex-1"
+                        style={{ background: i === PROCESS_STEPS.length - 1 ? "transparent" : state === "done" ? accent : "var(--vw-color-gray-200)" }}
                       />
                     </div>
-                    <div className={cn("mt-2 text-[11px] font-semibold leading-snug sm:text-xs", state === "pending" ? "text-slate-400" : "text-slate-800")}>
+                    <div
+                      className="mt-2 leading-snug"
+                      style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: state === "pending" ? "var(--vw-color-gray-400)" : "var(--vw-color-gray-800)" }}
+                    >
                       {step.label}
                     </div>
                   </div>
@@ -177,11 +184,25 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
               })}
             </div>
 
-            <div className="mt-6 h-40 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div
+              className="mt-6 h-40 overflow-y-auto"
+              style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)", padding: "12px" }}
+            >
               <div className="space-y-1.5">
                 {EVENTS.slice(0, eventCount).map((e, i) => (
-                  <div key={i} className="flex items-center gap-2.5 rounded-lg bg-white px-3 py-2 text-xs text-slate-600 shadow-sm">
-                    <CircleCheck className="size-3.5 shrink-0 text-blue-500" />
+                  <div
+                    key={i}
+                    className="flex items-center gap-2.5"
+                    style={{
+                      borderRadius: "var(--vw-radius-sm)",
+                      background: "var(--vw-color-white)",
+                      padding: "8px 12px",
+                      fontSize: "var(--vw-font-label-sm)",
+                      color: "var(--vw-color-gray-600)",
+                      boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                    }}
+                  >
+                    <CircleCheck className="size-3.5 shrink-0" style={{ color: "var(--vw-color-accent-500)" }} />
                     {e}
                   </div>
                 ))}
@@ -189,31 +210,28 @@ export function GitImportDialog({ open, onClose }: { open: boolean; onClose: () 
             </div>
 
             {phase === "done" && (
-              <div className="mt-5 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3.5">
-                <CircleCheck className="size-5 shrink-0 text-emerald-500" />
+              <div className="vw-card-section vw-card--success mt-5 flex items-center gap-3" style={{ padding: "14px 16px" }}>
+                <CircleCheck className="size-5 shrink-0" style={{ color: "var(--vw-color-emerald-500)" }} />
                 <div className="flex-1">
-                  <div className="text-sm font-semibold text-emerald-700">Documentation generated</div>
-                  <div className="text-xs text-emerald-600">14 documents ready — HLD, LLD, BRD, PRD, test plans, test cases, and a tutorial.</div>
+                  <div style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-emerald-700)" }}>
+                    Documentation generated
+                  </div>
+                  <div style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-emerald-600)" }}>
+                    14 documents ready — HLD, LLD, BRD, PRD, test plans, test cases, and a tutorial.
+                  </div>
                 </div>
               </div>
             )}
 
-            <div className="mt-5 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-              >
+            <div className="vw-flex vw-items-center vw-justify-between mt-5">
+              <button type="button" onClick={handleClose} className="nst-btn">
                 {phase === "done" ? "Close" : "Cancel"}
               </button>
               <button
                 type="button"
                 disabled={phase !== "done"}
                 onClick={viewDocs}
-                className={cn(
-                  "flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold transition-colors",
-                  phase === "done" ? "bg-slate-900 text-white hover:bg-slate-800" : "cursor-not-allowed bg-slate-100 text-slate-400"
-                )}
+                className={cn("nst-btn flex items-center gap-2", phase === "done" ? "nst-btn--filled" : "is-disabled")}
               >
                 View Documentation Gallery
                 <ArrowRight className="size-4" />

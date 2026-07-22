@@ -65,36 +65,57 @@ function LoginScreen({
           <div className="mx-auto flex size-20 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
             <ShieldCheck className="size-10 text-white" />
           </div>
-          <h1 className="mt-6 text-3xl font-semibold text-white">{appName}</h1>
+          <h1 className="mt-6 text-3xl font-medium text-white">{appName}</h1>
           <p className="mt-2 text-white/70">{tagline}</p>
         </div>
       </div>
       <div className="flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 px-6">
-        <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl shadow-slate-200">
-          <h2 className="text-xl font-semibold text-slate-900">Welcome Back</h2>
-          <p className="mt-1 text-sm text-slate-500">Sign in to access your dashboard</p>
+        <div
+          className="w-full max-w-sm"
+          style={{ borderRadius: "var(--vw-radius-lg)", background: "var(--vw-color-white)", padding: "32px", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)" }}
+        >
+          <h2 className="vw-card-title-lg">Welcome Back</h2>
+          <p className="mt-1" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
+            Sign in to access your dashboard
+          </p>
 
-          <label className="mt-6 block text-sm font-medium text-slate-700">Email Address</label>
-          <div className="mt-1.5 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2.5">
-            <Mail className="size-4 text-slate-400" />
-            <span className="text-sm text-slate-700">{email}</span>
+          <label className="nst-input-label mt-6" style={{ display: "block" }}>Email Address</label>
+          <div
+            className="mt-1.5 flex items-center gap-2"
+            style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)", padding: "10px 12px" }}
+          >
+            <Mail className="size-4" style={{ color: "var(--vw-color-gray-400)" }} />
+            <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>{email}</span>
           </div>
 
-          <label className="mt-4 block text-sm font-medium text-slate-700">Password</label>
-          <div className="mt-1.5 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2.5">
-            <Lock className="size-4 text-slate-400" />
-            <span className="text-sm tracking-widest text-slate-700">••••••••</span>
+          <label className="nst-input-label mt-4" style={{ display: "block" }}>Password</label>
+          <div
+            className="mt-1.5 flex items-center gap-2"
+            style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)", padding: "10px 12px" }}
+          >
+            <Lock className="size-4" style={{ color: "var(--vw-color-gray-400)" }} />
+            <span className="tracking-widest" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>••••••••</span>
           </div>
 
           <button
             onClick={onSignIn}
-            className="mt-6 w-full rounded-lg py-2.5 text-sm font-semibold text-white shadow-md transition-opacity hover:opacity-90"
-            style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
+            className="mt-6 w-full transition-opacity hover:opacity-90"
+            style={{
+              borderRadius: "var(--vw-radius-sm)",
+              padding: "10px",
+              fontSize: "var(--vw-font-label-md)",
+              fontWeight: 500,
+              color: "#fff",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+              background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})`,
+            }}
           >
             Sign In
           </button>
         </div>
-        <p className="mt-6 text-xs text-slate-400">© 2026 {appName}. Secure enterprise platform.</p>
+        <p className="mt-6" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>
+          © 2026 {appName}. Secure enterprise platform.
+        </p>
       </div>
     </div>
   );
@@ -103,9 +124,15 @@ function LoginScreen({
 function Sidebar({ navItems, appName }: { navItems: string[]; appName: string }) {
   const [active, setActive] = useState(navItems[0]);
   return (
-    <div className="flex w-20 shrink-0 flex-col items-center border-r border-slate-800 bg-slate-950 py-4">
-      <div className="mb-6 flex size-10 items-center justify-center rounded-lg bg-blue-600">
-        <span className="text-sm font-bold text-white">{appName.slice(0, 1)}</span>
+    <div
+      className="flex w-20 shrink-0 flex-col items-center py-4"
+      style={{ borderRight: "1px solid var(--vw-color-gray-800)", background: "var(--vw-color-gray-900)" }}
+    >
+      <div
+        className="mb-6 flex size-10 items-center justify-center"
+        style={{ borderRadius: "var(--vw-radius-sm)", background: "var(--color-primary, var(--vw-color-accent-500))" }}
+      >
+        <span style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "#fff" }}>{appName.slice(0, 1)}</span>
       </div>
       <div className="flex flex-1 flex-col items-center gap-1">
         {navItems.map((item) => {
@@ -115,9 +142,14 @@ function Sidebar({ navItems, appName }: { navItems: string[]; appName: string })
             <button
               key={item}
               onClick={() => setActive(item)}
-              className={`flex w-16 flex-col items-center gap-1 rounded-lg py-2.5 text-[10px] transition-colors ${
-                isActive ? "bg-blue-600 text-white" : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-              }`}
+              className="flex w-16 flex-col items-center gap-1 transition-colors"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                padding: "10px 0",
+                fontSize: "10px",
+                background: isActive ? "var(--color-primary, var(--vw-color-accent-500))" : "transparent",
+                color: isActive ? "#fff" : "var(--vw-color-gray-400)",
+              }}
             >
               <Icon className="size-5" />
               {item}
@@ -125,7 +157,10 @@ function Sidebar({ navItems, appName }: { navItems: string[]; appName: string })
           );
         })}
       </div>
-      <button className="flex w-16 flex-col items-center gap-1 rounded-lg py-2.5 text-[10px] text-slate-400 hover:bg-slate-800 hover:text-slate-200">
+      <button
+        className="flex w-16 flex-col items-center gap-1 transition-colors"
+        style={{ borderRadius: "var(--vw-radius-sm)", padding: "10px 0", fontSize: "10px", color: "var(--vw-color-gray-400)" }}
+      >
         <LogOut className="size-5" />
         Logout
       </button>
@@ -158,7 +193,7 @@ const RAN_NAV_EXPANDABLE = new Set([
 function RanSidebar({ navItems }: { navItems: string[] }) {
   const [active, setActive] = useState(navItems[0]);
   return (
-    <div className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <div className="flex w-64 shrink-0 flex-col" style={{ borderRight: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}>
       <div className="flex-1 space-y-1 overflow-y-auto p-3 pt-4">
         {navItems.map((item) => {
           const Icon = RAN_NAV_ICON[item] ?? Home;
@@ -167,9 +202,15 @@ function RanSidebar({ navItems }: { navItems: string[] }) {
             <button
               key={item}
               onClick={() => setActive(item)}
-              className={`flex w-full items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition-colors ${
-                isActive ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
-              }`}
+              className="flex w-full items-center justify-between gap-3 transition-colors"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                padding: "10px 14px",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                background: isActive ? "var(--color-primary, var(--vw-color-accent-500))" : "transparent",
+                color: isActive ? "#fff" : "var(--vw-color-gray-700)",
+              }}
             >
               <span className="flex items-center gap-3">
                 <Icon className="size-[18px] shrink-0" />
@@ -181,19 +222,33 @@ function RanSidebar({ navItems }: { navItems: string[] }) {
         })}
       </div>
 
-      <div className="border-t border-slate-100 p-3">
-        <button className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100">
+      <div className="p-3" style={{ borderTop: "1px solid var(--vw-color-gray-100)" }}>
+        <button
+          className="flex w-full items-center gap-3"
+          style={{ borderRadius: "var(--vw-radius-sm)", padding: "10px 14px", fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}
+        >
           <span className="relative flex items-center">
             <Bell className="size-[18px]" />
-            <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-semibold text-white">
+            <span
+              className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center text-[9px] font-medium"
+              style={{ borderRadius: "var(--vw-radius-full)", background: "var(--vw-color-red-500)", color: "#fff" }}
+            >
               9+
             </span>
           </span>
           Notifications
         </button>
-        <button className="mt-1 flex w-full items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100">
+        <button
+          className="mt-1 flex w-full items-center justify-between gap-3"
+          style={{ borderRadius: "var(--vw-radius-sm)", padding: "10px 14px", fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}
+        >
           <span className="flex items-center gap-2.5">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">MS</span>
+            <span
+              className="flex size-7 shrink-0 items-center justify-center text-xs font-medium"
+              style={{ borderRadius: "var(--vw-radius-full)", background: "var(--vw-color-orange-500)", color: "#fff" }}
+            >
+              MS
+            </span>
             Mohak Soni
           </span>
           <ChevronRight className="size-3.5 shrink-0 opacity-60" />
@@ -205,15 +260,15 @@ function RanSidebar({ navItems }: { navItems: string[] }) {
 
 function StatCard({ icon: Icon, iconBg, iconColor, value, label, delta, deltaUp }: any) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5">
+    <div className="vw-card-section">
       <div className="flex items-center justify-between">
-        <span className={`flex size-9 items-center justify-center rounded-lg ${iconBg}`}>
+        <span className={`vw-card-icon-md vw-chip ${iconBg}`}>
           <Icon className={`size-4 ${iconColor}`} />
         </span>
-        <span className={`text-xs font-medium ${deltaUp ? "text-emerald-600" : "text-red-500"}`}>{delta}</span>
+        <span className={`vw-card-variance ${deltaUp ? "is-positive" : "is-negative"}`}>{delta}</span>
       </div>
-      <div className="mt-3 text-2xl font-bold text-slate-900">{value}</div>
-      <div className="text-xs text-slate-500">{label}</div>
+      <div className="vw-card-metric-lg mt-3">{value}</div>
+      <div className="vw-card-metric-label">{label}</div>
     </div>
   );
 }
@@ -222,8 +277,14 @@ function StructuredDashboard({ data, role }: { data: ReturnType<typeof getAppDat
   if (!data || data.operatePreview.kind !== "structured") return null;
   const p = data.operatePreview;
   const c = p.charts;
+  const statusChip: Record<string, string> = {
+    green: "vw-chip--success",
+    amber: "vw-chip--warning",
+    red: "vw-chip--error",
+    blue: "vw-chip--info",
+  };
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden" style={{ background: "var(--vw-color-gray-50)" }}>
       {data.id === "ran" || data.id === "telecom-rollout" ? (
         <RanSidebar navItems={p.navItems} />
       ) : (
@@ -232,19 +293,21 @@ function StructuredDashboard({ data, role }: { data: ReturnType<typeof getAppDat
       <div className="flex-1 overflow-y-auto p-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-slate-900">{p.appName}</h1>
-            <p className="text-sm text-slate-500">Signed in as {role ?? "Admin"} · Live sandbox preview</p>
+            <h1 className="vw-page-title">{p.appName}</h1>
+            <p className="vw-page-description" style={{ color: "var(--vw-color-gray-500)" }}>
+              Signed in as {role ?? "Admin"} · Live sandbox preview
+            </p>
           </div>
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600">● Live</span>
+          <span className="vw-chip vw-chip--success is-strong">● Live</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="vw-grid vw-grid-cols-4 vw-gap-lg">
           {p.stats.map((s, i) => (
             <StatCard
               key={i}
               icon={Sparkles}
-              iconBg={s.tone === "warn" ? "bg-amber-50" : "bg-blue-50"}
-              iconColor={s.tone === "warn" ? "text-amber-600" : "text-blue-600"}
+              iconBg={s.tone === "warn" ? "vw-chip--warning" : "vw-chip--info"}
+              iconColor=""
               value={s.value}
               label={s.label}
               delta={s.delta}
@@ -254,58 +317,54 @@ function StructuredDashboard({ data, role }: { data: ReturnType<typeof getAppDat
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">{c.stageTitle}</h3>
+          <div className="vw-card-section">
+            <h3 className="vw-card-title-sm mb-4">{c.stageTitle}</h3>
             <BarChart data={c.stageBars} />
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">{c.typeTitle}</h3>
+          <div className="vw-card-section">
+            <h3 className="vw-card-title-sm mb-4">{c.typeTitle}</h3>
             <DonutChart data={c.typeSlices} />
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">{c.trendTitle}</h3>
+          <div className="vw-card-section">
+            <h3 className="vw-card-title-sm mb-4">{c.trendTitle}</h3>
             <LineChart seriesA={c.trendA} seriesB={c.trendB} labelA={c.trendLabelA} labelB={c.trendLabelB} />
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">{c.riskTitle}</h3>
+          <div className="vw-card-section">
+            <h3 className="vw-card-title-sm mb-4">{c.riskTitle}</h3>
             <BarChart data={c.riskBars} />
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-slate-200 bg-white">
-          <div className="border-b border-slate-200 px-5 py-4 text-sm font-semibold text-slate-900">{p.tableTitle}</div>
+        <div className="mt-6" style={{ borderRadius: "var(--vw-radius-lg)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}>
+          <div className="vw-card-title-sm" style={{ borderBottom: "1px solid var(--vw-color-slate-200)", padding: "16px 20px" }}>
+            {p.tableTitle}
+          </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <table className="nst-table" style={{ width: "100%" }}>
+              <thead>
                 <tr>
                   {p.columns.map((col) => (
-                    <th key={col.key} className="px-5 py-2.5 font-medium">{col.label}</th>
+                    <th key={col.key}>{col.label}</th>
                   ))}
-                  <th className="px-5 py-2.5 font-medium">Status</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {p.rows.map((row) => (
-                  <tr key={row.id} className="border-t border-slate-100 hover:bg-slate-50">
+                  <tr key={row.id}>
                     {p.columns.map((col) => (
-                      <td key={col.key} className="px-5 py-3">
-                        {col.key === "id" ? <span className="font-mono text-xs text-slate-500">{row.id}</span> : row.cells[col.key]}
+                      <td key={col.key} className={col.key === "id" ? "nst-table-td--primary" : undefined}>
+                        {col.key === "id" ? (
+                          <span className="font-mono" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
+                            {row.id}
+                          </span>
+                        ) : (
+                          row.cells[col.key]
+                        )}
                       </td>
                     ))}
-                    <td className="px-5 py-3">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                          row.statusTone === "green"
-                            ? "bg-emerald-50 text-emerald-600"
-                            : row.statusTone === "amber"
-                              ? "bg-amber-50 text-amber-600"
-                              : row.statusTone === "red"
-                                ? "bg-red-50 text-red-600"
-                                : row.statusTone === "blue"
-                                  ? "bg-blue-50 text-blue-600"
-                                  : "bg-slate-100 text-slate-600"
-                        }`}
-                      >
+                    <td>
+                      <span className={`vw-chip ${statusChip[row.statusTone] ?? "vw-chip--neutral"}`} style={{ fontSize: "var(--vw-font-label-sm)" }}>
                         {row.status}
                       </span>
                     </td>
@@ -333,28 +392,59 @@ function ChatDashboard({ data, role }: { data: ReturnType<typeof getAppData>; ro
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden" style={{ background: "var(--vw-color-gray-50)" }}>
       <Sidebar navItems={p.navItems} appName={p.appName} />
       <div className="flex flex-1 flex-col">
-        <div className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
+        <div
+          className="flex items-center justify-between px-6 py-4"
+          style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+        >
           <div>
-            <h1 className="text-base font-semibold text-slate-900">{p.assistantName}</h1>
-            <p className="text-xs text-emerald-600">● Online — signed in as {role ?? "Employee"}</p>
+            <h1 className="vw-card-title">{p.assistantName}</h1>
+            <p style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-emerald-600)" }}>
+              ● Online — signed in as {role ?? "Employee"}
+            </p>
           </div>
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600">Live sandbox preview</span>
+          <span className="vw-chip vw-chip--success is-strong">Live sandbox preview</span>
         </div>
         <div className="flex flex-1">
-          <div className="hidden w-60 shrink-0 flex-col border-r border-slate-200 bg-white p-4 lg:flex">
-            <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Channels</div>
+          <div
+            className="hidden w-60 shrink-0 flex-col p-4 lg:flex"
+            style={{ borderRight: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+          >
+            <div className="nst-input-label">Channels</div>
             <div className="mt-3 space-y-1.5">
               {p.channels.map((ch, i) => (
-                <div key={i} className={`rounded-lg px-3 py-2 text-sm ${i === 0 ? "bg-blue-50 font-medium text-blue-600" : "text-slate-500 hover:bg-slate-50"}`}>{ch}</div>
+                <div
+                  key={i}
+                  style={{
+                    borderRadius: "var(--vw-radius-sm)",
+                    padding: "8px 12px",
+                    fontSize: "var(--vw-font-label-md)",
+                    fontWeight: i === 0 ? 500 : 400,
+                    background: i === 0 ? "var(--vw-color-accent-50)" : "transparent",
+                    color: i === 0 ? "var(--color-primary, var(--vw-color-accent-600))" : "var(--vw-color-gray-500)",
+                  }}
+                >
+                  {ch}
+                </div>
               ))}
             </div>
-            <div className="mt-6 text-xs font-medium uppercase tracking-wide text-slate-400">Try asking</div>
+            <div className="nst-input-label mt-6">Try asking</div>
             <div className="mt-3 space-y-2">
               {p.suggestedPrompts.map((sp, i) => (
-                <button key={i} onClick={() => setDraft(sp)} className="w-full rounded-lg border border-slate-200 p-2.5 text-left text-xs text-slate-500 hover:border-blue-300 hover:text-slate-800">
+                <button
+                  key={i}
+                  onClick={() => setDraft(sp)}
+                  className="w-full text-left transition-colors"
+                  style={{
+                    borderRadius: "var(--vw-radius-sm)",
+                    border: "1px solid var(--vw-color-slate-200)",
+                    padding: "10px",
+                    fontSize: "var(--vw-font-label-sm)",
+                    color: "var(--vw-color-gray-500)",
+                  }}
+                >
                   {sp}
                 </button>
               ))}
@@ -365,34 +455,56 @@ function ChatDashboard({ data, role }: { data: ReturnType<typeof getAppData>; ro
               {messages.map((m, i) =>
                 m.from === "user" ? (
                   <div key={i} className="flex justify-end">
-                    <div className="max-w-md rounded-2xl rounded-tr-sm bg-blue-600 px-4 py-2.5 text-sm leading-relaxed text-white">
+                    <div
+                      className="max-w-md leading-relaxed"
+                      style={{
+                        borderRadius: "var(--vw-radius-md) var(--vw-radius-md) var(--vw-radius-xs) var(--vw-radius-md)",
+                        padding: "10px 16px",
+                        fontSize: "var(--vw-font-description)",
+                        background: "var(--color-primary, var(--vw-color-accent-500))",
+                        color: "#fff",
+                      }}
+                    >
                       {m.text}
-                      <div className="mt-1 text-[10px] text-blue-100">{m.time}</div>
+                      <div className="mt-1" style={{ fontSize: "10px", color: "var(--vw-color-accent-100)" }}>{m.time}</div>
                     </div>
                   </div>
                 ) : (
                   <div key={i} className="flex justify-start gap-3">
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-blue-50">
-                      <Sparkles className="size-4 text-blue-600" />
+                    <div
+                      className="flex size-8 shrink-0 items-center justify-center"
+                      style={{ borderRadius: "var(--vw-radius-sm)", background: "var(--vw-color-accent-50)" }}
+                    >
+                      <Sparkles className="size-4" style={{ color: "var(--color-primary, var(--vw-color-accent-500))" }} />
                     </div>
-                    <div className="max-w-md rounded-2xl rounded-tl-sm bg-white px-4 py-2.5 text-sm leading-relaxed text-slate-800 shadow-sm">
+                    <div
+                      className="max-w-md leading-relaxed"
+                      style={{
+                        borderRadius: "var(--vw-radius-md) var(--vw-radius-md) var(--vw-radius-md) var(--vw-radius-xs)",
+                        padding: "10px 16px",
+                        fontSize: "var(--vw-font-description)",
+                        background: "var(--vw-color-white)",
+                        color: "var(--vw-color-gray-800)",
+                        boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                      }}
+                    >
                       {m.text}
-                      <div className="mt-1 text-[10px] text-slate-400">{m.time}</div>
+                      <div className="mt-1" style={{ fontSize: "10px", color: "var(--vw-color-gray-400)" }}>{m.time}</div>
                     </div>
                   </div>
                 )
               )}
             </div>
-            <div className="border-t border-slate-200 bg-white p-4">
+            <div className="p-4" style={{ borderTop: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}>
               <div className="flex gap-2">
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && send()}
                   placeholder="Ask about leave, payroll, onboarding..."
-                  className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm placeholder:text-slate-400 focus:border-blue-400 focus:outline-none"
+                  className="nst-input flex-1"
                 />
-                <button onClick={send} disabled={!draft.trim()} className="flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">
+                <button onClick={send} disabled={!draft.trim()} className="nst-btn nst-btn--filled nst-btn--icon">
                   <Send className="size-4" />
                 </button>
               </div>
@@ -414,7 +526,10 @@ export default function PreviewApp() {
 
   if (!crudConfig && !data) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-slate-500">
+      <div
+        className="flex min-h-screen items-center justify-center"
+        style={{ background: "var(--vw-color-gray-50)", color: "var(--vw-color-gray-500)" }}
+      >
         Preview not found.
       </div>
     );

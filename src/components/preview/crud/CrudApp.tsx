@@ -7,19 +7,19 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import { BarChart, DonutChart, LineChart } from "../Charts";
 
 const TONE_CLASSES: Record<string, string> = {
-  green: "bg-emerald-50 text-emerald-600",
-  amber: "bg-amber-50 text-amber-600",
-  red: "bg-red-50 text-red-600",
-  blue: "bg-blue-50 text-blue-600",
-  slate: "bg-slate-100 text-slate-600",
-  purple: "bg-purple-50 text-purple-600",
+  green: "vw-chip--success",
+  amber: "vw-chip--warning",
+  red: "vw-chip--error",
+  blue: "vw-chip--info",
+  slate: "vw-chip--neutral",
+  purple: "vw-chip--purple",
 };
 
-const STAT_TONE_CLASSES: Record<string, string> = {
-  up: "text-emerald-600",
-  down: "text-red-500",
-  flat: "text-slate-500",
-  warn: "text-amber-600",
+const STAT_TONE_TOKENS: Record<string, string> = {
+  up: "var(--vw-color-emerald-600)",
+  down: "var(--vw-color-red-500)",
+  flat: "var(--vw-color-gray-500)",
+  warn: "var(--vw-color-amber-600)",
 };
 
 const PAGE_SIZE = 8;
@@ -39,7 +39,7 @@ function StatusPill({ entity, fieldKey, value }: { entity: CrudEntityConfig; fie
   const field = entity.fields.find((f) => f.key === fieldKey);
   const option = field?.options?.find((o) => o.value === value);
   const tone = option?.tone ?? "slate";
-  return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${TONE_CLASSES[tone]}`}>{String(value)}</span>;
+  return <span className={`vw-chip is-strong ${TONE_CLASSES[tone]}`}>{String(value)}</span>;
 }
 
 function Sidebar({
@@ -57,18 +57,19 @@ function Sidebar({
   role: string | null;
   rowCounts: Record<string, number>;
 }) {
+  const accent = "var(--color-primary, var(--vw-color-accent-500))";
   return (
-    <div className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
-      <div className="flex items-center gap-2.5 border-b border-slate-100 px-5 py-5">
+    <div className="flex w-64 shrink-0 flex-col" style={{ borderRight: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}>
+      <div className="flex items-center gap-2.5 px-5 py-5" style={{ borderBottom: "1px solid var(--vw-color-slate-100)" }}>
         <div
-          className="flex size-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white"
-          style={{ background: `linear-gradient(135deg, ${config.gradientFrom}, ${config.gradientTo})` }}
+          className="flex size-9 shrink-0 items-center justify-center rounded-lg"
+          style={{ background: `linear-gradient(135deg, ${config.gradientFrom}, ${config.gradientTo})`, fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "#fff" }}
         >
           {config.appName.slice(0, 1)}
         </div>
         <div className="min-w-0">
-          <div className="truncate text-sm font-bold text-slate-900">{config.appName}</div>
-          <div className="truncate text-xs text-slate-400">{config.tagline}</div>
+          <div className="truncate" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-900)" }}>{config.appName}</div>
+          <div className="truncate" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>{config.tagline}</div>
         </div>
       </div>
 
@@ -76,15 +77,23 @@ function Sidebar({
         <button
           type="button"
           onClick={() => onSelect("dashboard")}
-          className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-            active === "dashboard" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100"
-          }`}
+          className="flex w-full items-center gap-3 transition-colors"
+          style={{
+            borderRadius: "var(--vw-radius-sm)",
+            padding: "10px 12px",
+            fontSize: "var(--vw-font-label-md)",
+            fontWeight: 500,
+            background: active === "dashboard" ? accent : "transparent",
+            color: active === "dashboard" ? "#fff" : "var(--vw-color-gray-600)",
+          }}
         >
           <LayoutDashboard className="size-[18px] shrink-0" />
           Dashboard
         </button>
 
-        <div className="pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Records</div>
+        <div className="pt-3 pb-1" style={{ fontSize: "11px", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--vw-color-gray-400)" }}>
+          Records
+        </div>
         {config.entities.map((e) => {
           const Icon = CRUD_ICONS[e.icon];
           const isActive = active === e.key;
@@ -93,15 +102,29 @@ function Sidebar({
               key={e.key}
               type="button"
               onClick={() => onSelect(e.key)}
-              className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                isActive ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100"
-              }`}
+              className="flex w-full items-center justify-between gap-3 transition-colors"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                padding: "10px 12px",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                background: isActive ? accent : "transparent",
+                color: isActive ? "#fff" : "var(--vw-color-gray-600)",
+              }}
             >
               <span className="flex items-center gap-3">
                 <Icon className="size-[18px] shrink-0" />
                 {e.labelPlural}
               </span>
-              <span className={`rounded-full px-2 py-0.5 text-[11px] ${isActive ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"}`}>
+              <span
+                style={{
+                  borderRadius: "var(--vw-radius-full)",
+                  padding: "2px 8px",
+                  fontSize: "11px",
+                  background: isActive ? "rgba(255,255,255,0.15)" : "var(--vw-color-gray-100)",
+                  color: isActive ? "#fff" : "var(--vw-color-gray-500)",
+                }}
+              >
                 {rowCounts[e.key] ?? 0}
               </span>
             </button>
@@ -109,16 +132,19 @@ function Sidebar({
         })}
       </div>
 
-      <div className="border-t border-slate-100 p-3">
-        <div className="flex items-center gap-2.5 rounded-lg px-3 py-2">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600">
+      <div className="p-3" style={{ borderTop: "1px solid var(--vw-color-slate-100)" }}>
+        <div className="flex items-center gap-2.5" style={{ borderRadius: "var(--vw-radius-sm)", padding: "8px 12px" }}>
+          <div
+            className="flex size-8 shrink-0 items-center justify-center rounded-full"
+            style={{ background: "var(--vw-color-gray-200)", fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-600)" }}
+          >
             {(role ?? "Admin").slice(0, 1).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="truncate text-xs font-semibold text-slate-800">{role ?? "Admin"}</div>
-            <div className="text-[11px] text-emerald-600">● Live sandbox</div>
+            <div className="truncate" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{role ?? "Admin"}</div>
+            <div style={{ fontSize: "11px", color: "var(--vw-color-emerald-600)" }}>● Live sandbox</div>
           </div>
-          <button type="button" onClick={onLogout} title="Sign out" className="flex size-7 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+          <button type="button" onClick={onLogout} title="Sign out" className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
             <LogOut className="size-4" />
           </button>
         </div>
@@ -130,15 +156,17 @@ function Sidebar({
 function StatCard({ stat }: { stat: CrudAppConfig["dashboardStats"][number] }) {
   const Icon = CRUD_ICONS[stat.icon];
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5">
+    <div className="vw-card-section">
       <div className="flex items-center justify-between">
-        <span className="flex size-9 items-center justify-center rounded-lg bg-slate-50 text-slate-600">
+        <span className="vw-card-icon-md vw-chip vw-chip--neutral">
           <Icon className="size-4" />
         </span>
-        {stat.delta && <span className={`text-xs font-medium ${STAT_TONE_CLASSES[stat.tone]}`}>{stat.delta}</span>}
+        {stat.delta && (
+          <span style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: STAT_TONE_TOKENS[stat.tone] }}>{stat.delta}</span>
+        )}
       </div>
-      <div className="mt-3 text-2xl font-bold text-slate-900">{stat.value}</div>
-      <div className="text-xs text-slate-500">{stat.label}</div>
+      <div className="vw-card-metric-lg mt-3">{stat.value}</div>
+      <div className="vw-card-metric-label">{stat.label}</div>
     </div>
   );
 }
@@ -148,22 +176,22 @@ function DashboardView({ config, appName, role }: { config: CrudAppConfig; appNa
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Dashboard</h1>
-          <p className="text-sm text-slate-500">Signed in as {role ?? "Admin"} · Live sandbox preview</p>
+          <h1 className="vw-page-title">Dashboard</h1>
+          <p className="vw-page-description">Signed in as {role ?? "Admin"} · Live sandbox preview</p>
         </div>
-        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600">● Live</span>
+        <span className="vw-chip vw-chip--success is-strong">● Live</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="vw-grid vw-grid-cols-4 vw-gap-lg">
         {config.dashboardStats.map((s, i) => (
           <StatCard key={i} stat={s} />
         ))}
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 vw-grid vw-grid-cols-2 vw-gap-lg">
         {config.dashboardCharts.map((c, i) => (
-          <div key={i} className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="mb-4 text-sm font-semibold text-slate-900">{c.title}</h3>
+          <div key={i} className="vw-card-section">
+            <h3 className="vw-card-title-sm mb-4">{c.title}</h3>
             {c.kind === "bar" && c.bars && <BarChart data={c.bars} />}
             {c.kind === "donut" && c.donut && <DonutChart data={c.donut} />}
             {c.kind === "line" && c.lineA && c.lineB && (
@@ -207,12 +235,14 @@ function EntityView({
     <div className="p-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">{entity.labelPlural}</h1>
-          <p className="text-sm text-slate-500">{rows.length} total records</p>
+          <h1 className="vw-page-title">{entity.labelPlural}</h1>
+          <p className="vw-page-description">{rows.length} total records</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="relative w-64">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+          <div className="nst-input-shell w-64">
+            <i className="nst-input-icon">
+              <Search className="size-4" />
+            </i>
             <input
               value={query}
               onChange={(e) => {
@@ -220,62 +250,51 @@ function EntityView({
                 setPage(1);
               }}
               placeholder={`Search ${entity.labelPlural.toLowerCase()}`}
-              className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400"
             />
           </div>
-          <button
-            type="button"
-            onClick={onCreate}
-            className="flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
-          >
+          <button type="button" onClick={onCreate} className="nst-btn nst-btn--filled flex items-center gap-2">
             <Plus className="size-4" />
             New {entity.label}
           </button>
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+          <table className="nst-table w-full">
+            <thead>
               <tr>
                 {columns.map((c) => (
-                  <th key={c.key} className="px-5 py-3 font-medium">
-                    {c.label}
-                  </th>
+                  <th key={c.key}>{c.label}</th>
                 ))}
-                <th className="px-5 py-3 font-medium text-right">Actions</th>
+                <th style={{ textAlign: "right" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {pageRows.map((row) => (
-                <tr key={row.id} className="border-t border-slate-100 hover:bg-slate-50">
+                <tr key={row.id}>
                   {columns.map((c) => (
-                    <td key={c.key} className="px-5 py-3.5">
+                    <td key={c.key} className={c.key === entity.primaryKey ? "nst-table-td--primary" : undefined}>
                       {c.key === entity.primaryKey ? (
-                        <span className="font-medium text-slate-900">{String(row[c.key])}</span>
+                        String(row[c.key])
                       ) : c.isStatus ? (
                         <StatusPill entity={entity} fieldKey={c.key} value={row[c.key]} />
                       ) : (
-                        <span className="text-slate-600">{formatCell(entity, c.key, row[c.key])}</span>
+                        formatCell(entity, c.key, row[c.key])
                       )}
                     </td>
                   ))}
-                  <td className="px-5 py-3.5">
+                  <td>
                     <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => onEdit(row)}
-                        title="Edit"
-                        className="flex size-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
-                      >
+                      <button type="button" onClick={() => onEdit(row)} title="Edit" className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
                         <Pencil className="size-4" />
                       </button>
                       <button
                         type="button"
                         onClick={() => onDelete(row)}
                         title="Delete"
-                        className="flex size-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                        className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm"
+                        style={{ color: "var(--vw-color-red-500)" }}
                       >
                         <Trash2 className="size-4" />
                       </button>
@@ -285,7 +304,7 @@ function EntityView({
               ))}
               {pageRows.length === 0 && (
                 <tr>
-                  <td colSpan={columns.length + 1} className="px-5 py-10 text-center text-sm text-slate-400">
+                  <td colSpan={columns.length + 1} style={{ textAlign: "center", padding: "40px 20px", color: "var(--vw-color-gray-400)" }}>
                     No {entity.labelPlural.toLowerCase()} match your search.
                   </td>
                 </tr>
@@ -294,7 +313,10 @@ function EntityView({
           </table>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-100 px-5 py-3 text-xs text-slate-500">
+        <div
+          className="flex items-center justify-between px-5 py-3"
+          style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}
+        >
           <span>
             Showing {filtered.length === 0 ? 0 : (pageSafe - 1) * PAGE_SIZE + 1}-{Math.min(pageSafe * PAGE_SIZE, filtered.length)} of {filtered.length}
           </span>
@@ -303,18 +325,18 @@ function EntityView({
               type="button"
               disabled={pageSafe <= 1}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="flex size-7 items-center justify-center rounded-lg border border-slate-200 text-slate-500 disabled:opacity-40 hover:bg-slate-50"
+              className="nst-btn nst-btn--icon nst-btn--sm disabled:opacity-40"
             >
               <ChevronLeft className="size-3.5" />
             </button>
-            <span className="px-2 text-slate-600">
+            <span className="px-2" style={{ color: "var(--vw-color-gray-600)" }}>
               Page {pageSafe} of {totalPages}
             </span>
             <button
               type="button"
               disabled={pageSafe >= totalPages}
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              className="flex size-7 items-center justify-center rounded-lg border border-slate-200 text-slate-500 disabled:opacity-40 hover:bg-slate-50"
+              className="nst-btn nst-btn--icon nst-btn--sm disabled:opacity-40"
             >
               <ChevronRight className="size-3.5" />
             </button>
@@ -386,7 +408,7 @@ export function CrudApp({ config, role, onLogout }: { config: CrudAppConfig; rol
   const activeEntity = config.entities.find((e) => e.key === section) ?? null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden" style={{ background: "var(--vw-color-gray-50)" }}>
       <Sidebar config={config} active={section} onSelect={setSection} onLogout={onLogout} role={role} rowCounts={rowCounts} />
       <div className="flex-1 overflow-y-auto">
         {section === "dashboard" && <DashboardView config={config} appName={config.appName} role={role} />}
@@ -423,8 +445,19 @@ export function CrudApp({ config, role, onLogout }: { config: CrudAppConfig; rol
       )}
 
       {toast && (
-        <div className="fixed bottom-6 right-6 z-[70] flex items-center gap-2.5 rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl">
-          <CircleCheck className="size-4 text-emerald-400" />
+        <div
+          className="fixed bottom-6 right-6 z-[70] flex items-center gap-2.5"
+          style={{
+            borderRadius: "var(--vw-radius-md)",
+            background: "var(--vw-color-gray-900)",
+            padding: "12px 16px",
+            fontSize: "var(--vw-font-label-md)",
+            fontWeight: 500,
+            color: "#fff",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)",
+          }}
+        >
+          <CircleCheck className="size-4" style={{ color: "var(--vw-color-emerald-400)" }} />
           {toast}
         </div>
       )}

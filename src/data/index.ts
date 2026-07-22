@@ -18,6 +18,7 @@ import { terraformModuleLibraryDocs } from "./docGalleries/terraformModuleLibrar
 import { internalCliToolkitDocs } from "./docGalleries/internalCliToolkit";
 import { facilitiesSchedulerDocs } from "./docGalleries/facilitiesScheduler";
 import { vendorContractTrackerDocs } from "./docGalleries/vendorContractTracker";
+import { contractLifecycleManagerDocs } from "./docGalleries/contractLifecycleManager";
 
 export { catalog, TOTAL_APPS };
 export type { AppData };
@@ -44,6 +45,12 @@ const bespokeDocGalleries: Record<string, DocumentGalleryData> = {
   "internal-cli-toolkit": internalCliToolkitDocs,
   "facilities-scheduler": facilitiesSchedulerDocs,
   "vendor-contract-tracker": vendorContractTrackerDocs,
+  "contract-lifecycle-manager": contractLifecycleManagerDocs,
+};
+
+// Apps with a real external deployment — "Preview" opens this URL instead of the internal simulated page.
+const bespokeExternalPreviewUrls: Record<string, string> = {
+  "contract-lifecycle-manager": "https://apps.visionwaves.com/enterprisesingularity/pb-router/router?data=eyJkYXRhIjoicGItYWdyLWRhcyJ9",
 };
 
 export function getAppData(id: string): AppData | undefined {
@@ -56,11 +63,13 @@ export function getAppData(id: string): AppData | undefined {
 
   const data = generateDocGalleryAppData(card);
   const bespoke = bespokeDocGalleries[id];
-  if (!bespoke) return data;
+  const externalPreviewUrl = bespokeExternalPreviewUrls[id];
+  if (!bespoke) return externalPreviewUrl ? { ...data, externalPreviewUrl } : data;
 
   return {
     ...data,
     documentGallery: bespoke,
+    externalPreviewUrl: externalPreviewUrl ?? data.externalPreviewUrl,
     chat: [
       { role: "user", text: `Import ${bespoke.repoUrl} and generate full documentation.` },
       {

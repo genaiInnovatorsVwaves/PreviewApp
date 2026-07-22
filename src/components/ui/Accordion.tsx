@@ -21,41 +21,47 @@ export function Accordion({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className={cn("rounded-xl border border-border bg-card", tone === "muted" && "bg-muted/40")}>
+    <div
+      style={{
+        borderRadius: "var(--vw-radius-md)",
+        border: "1px solid var(--vw-color-slate-200)",
+        background: tone === "muted" ? "var(--vw-color-gray-50)" : "var(--vw-color-white)",
+      }}
+    >
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+        className="flex w-full items-center justify-between gap-3 text-left"
+        style={{ padding: "16px 20px" }}
       >
         <div className="flex min-w-0 items-center gap-3">
           {icon}
           <div className="min-w-0">
-            <div className="text-sm font-semibold text-foreground">{title}</div>
-            {subtitle && <div className="mt-0.5 text-xs text-muted-foreground">{subtitle}</div>}
+            <div style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{title}</div>
+            {subtitle && (
+              <div className="mt-0.5" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
+                {subtitle}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-3">
           {right}
-          <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+          <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} style={{ color: "var(--vw-color-gray-500)" }} />
         </div>
       </button>
-      {open && <div className="border-t border-border px-5 py-4">{children}</div>}
+      {open && (
+        <div style={{ borderTop: "1px solid var(--vw-color-slate-200)", padding: "16px 20px" }}>{children}</div>
+      )}
     </div>
   );
 }
 
 export function SearchInput({ placeholder }: { placeholder: string }) {
-  return (
-    <input
-      type="text"
-      placeholder={placeholder}
-      className="w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
-    />
-  );
+  return <input type="text" placeholder={placeholder} className="nst-input" />;
 }
 
 export function PriorityBadge({ level }: { level: "High" | "Medium" | "Low" }) {
-  const tone =
-    level === "High" ? "bg-red-50 text-red-600" : level === "Medium" ? "bg-amber-50 text-amber-600" : "bg-blue-50 text-blue-600";
-  return <span className={cn("shrink-0 rounded-full px-3 py-1 text-xs font-medium", tone)}>{level} Priority</span>;
+  const tone = level === "High" ? "vw-chip--error" : level === "Medium" ? "vw-chip--warning" : "vw-chip--info";
+  return <span className={cn("vw-chip is-strong shrink-0", tone)}>{level} Priority</span>;
 }

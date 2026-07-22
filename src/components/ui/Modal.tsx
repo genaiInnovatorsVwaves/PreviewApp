@@ -18,18 +18,25 @@ export function Modal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6" onClick={onClose}>
       <div
-        className="max-h-[85vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-card p-6 shadow-2xl"
+        className="max-h-[85vh] w-full max-w-4xl overflow-y-auto"
+        style={{
+          borderRadius: "var(--vw-radius-lg)",
+          background: "var(--vw-color-white)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)",
+          padding: "24px",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
-            {title && <h2 className="text-lg font-bold text-foreground">{title}</h2>}
-            {subtitle && <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>}
+            {title && <h2 className="vw-card-title-lg">{title}</h2>}
+            {subtitle && (
+              <p className="mt-0.5" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
+                {subtitle}
+              </p>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
+          <button onClick={onClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
             <X className="size-4" />
           </button>
         </div>

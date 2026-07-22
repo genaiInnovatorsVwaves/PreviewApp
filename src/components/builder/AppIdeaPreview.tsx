@@ -29,10 +29,10 @@ const toneIcon: Record<string, typeof TrendingUp> = {
 };
 
 const toneClass: Record<string, string> = {
-  up: "text-emerald-600 bg-emerald-50",
-  down: "text-red-600 bg-red-50",
-  flat: "text-slate-500 bg-slate-100",
-  warn: "text-amber-600 bg-amber-50",
+  up: "vw-chip--success",
+  down: "vw-chip--error",
+  flat: "vw-chip--neutral",
+  warn: "vw-chip--warning",
 };
 
 function getInitials(title: string) {
@@ -53,19 +53,19 @@ function InsightsHome({ data, preview, primary }: { data: AppData; preview: Stru
   return (
     <div className="space-y-6">
       <div>
-        <div className="text-xl font-bold text-slate-900">{data.title} Overview</div>
-        <p className="mt-1 max-w-2xl text-sm text-slate-500">{data.tagline}</p>
+        <div className="vw-card-title-lg">{data.title} Overview</div>
+        <p className="vw-card-description mt-1 max-w-2xl">{data.tagline}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {preview.stats.map((s, i) => {
           const ToneIcon = toneIcon[s.tone] ?? Minus;
           return (
-            <div key={i} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="text-xs font-medium text-slate-400">{s.label}</div>
-              <div className="mt-1.5 text-2xl font-bold text-slate-900">{s.value}</div>
+            <div key={i} className="vw-card-section">
+              <div className="vw-card-metric-label-sm">{s.label}</div>
+              <div className="vw-card-metric-lg mt-1.5">{s.value}</div>
               {s.delta && (
-                <div className={cn("mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium", toneClass[s.tone])}>
+                <div className={cn("vw-chip is-strong mt-2 inline-flex items-center gap-1", toneClass[s.tone])}>
                   <ToneIcon className="size-3" />
                   {s.delta}
                 </div>
@@ -76,14 +76,14 @@ function InsightsHome({ data, preview, primary }: { data: AppData; preview: Stru
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-700">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+        <div className="vw-card-section">
+          <div className="mb-4 flex items-center gap-2" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>
+            <span className="vw-card-icon-sm vw-chip vw-chip--info">
               <LayoutGrid className="size-3.5" />
             </span>
             {c.stageTitle}
           </div>
-          <div className="flex h-4 overflow-hidden rounded-full bg-slate-100">
+          <div className="flex h-4 overflow-hidden rounded-full" style={{ background: "var(--vw-color-gray-100)" }}>
             {c.stageBars.map((b, i) => (
               <div key={i} style={{ flex: b.value, backgroundColor: STAGE_COLORS[i % STAGE_COLORS.length] }} />
             ))}
@@ -94,20 +94,20 @@ function InsightsHome({ data, preview, primary }: { data: AppData; preview: Stru
               return (
                 <div key={i} className="flex items-center gap-3">
                   <span className="size-2 shrink-0 rounded-full" style={{ backgroundColor: STAGE_COLORS[i % STAGE_COLORS.length] }} />
-                  <span className="w-28 shrink-0 truncate text-xs text-slate-500">{b.label}</span>
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
+                  <span className="w-28 shrink-0 truncate" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>{b.label}</span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full" style={{ background: "var(--vw-color-gray-100)" }}>
                     <div className="h-full rounded-full" style={{ width: `${(b.value / stageTotal) * 100}%`, backgroundColor: STAGE_COLORS[i % STAGE_COLORS.length] }} />
                   </div>
-                  <span className="w-6 shrink-0 text-right text-xs font-semibold text-slate-700">{b.value}</span>
+                  <span className="w-6 shrink-0 text-right" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>{b.value}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-700">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-rose-50 text-rose-500">
+        <div className="vw-card-section">
+          <div className="mb-4 flex items-center gap-2" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>
+            <span className="vw-card-icon-sm vw-chip vw-chip--error">
               <PieChart className="size-3.5" />
             </span>
             {c.typeTitle}
@@ -115,22 +115,22 @@ function InsightsHome({ data, preview, primary }: { data: AppData; preview: Stru
           <div className="flex h-32 gap-3">
             {c.typeSlices.map((s, i) => (
               <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
-                <span className="text-xs font-semibold text-slate-600">{s.value}</span>
+                <span style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-600)" }}>{s.value}</span>
                 <div className="w-full rounded-t-md" style={{ height: `${8 + (s.value / typeMax) * 92}%`, backgroundColor: DIST_COLORS[i % DIST_COLORS.length] }} />
               </div>
             ))}
           </div>
           <div className="mt-2 flex gap-3">
             {c.typeSlices.map((s, i) => (
-              <span key={i} className="flex-1 truncate text-center text-[11px] text-slate-400">{s.label}</span>
+              <span key={i} className="flex-1 truncate text-center" style={{ fontSize: "var(--vw-font-label-xs)", color: "var(--vw-color-gray-400)" }}>{s.label}</span>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-700">
-          <span className="flex size-7 items-center justify-center rounded-lg bg-violet-50 text-violet-500">
+      <div className="vw-card-section">
+        <div className="mb-4 flex items-center gap-2" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>
+          <span className="vw-card-icon-sm vw-chip vw-chip--purple">
             <BarChart3 className="size-3.5" />
           </span>
           {c.riskTitle}
@@ -138,14 +138,14 @@ function InsightsHome({ data, preview, primary }: { data: AppData; preview: Stru
         <div className="flex h-24 gap-3">
           {c.riskBars.map((b, i) => (
             <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
-              <span className="text-xs font-semibold text-slate-600">{b.value}</span>
+              <span style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-600)" }}>{b.value}</span>
               <div className="w-full rounded-t-md" style={{ height: `${10 + (b.value / riskMax) * 90}%`, backgroundColor: primary }} />
             </div>
           ))}
         </div>
         <div className="mt-2 flex gap-3">
           {c.riskBars.map((b, i) => (
-            <span key={i} className="flex-1 truncate text-center text-[11px] text-slate-400">{b.label}</span>
+            <span key={i} className="flex-1 truncate text-center" style={{ fontSize: "var(--vw-font-label-xs)", color: "var(--vw-color-gray-400)" }}>{b.label}</span>
           ))}
         </div>
       </div>
@@ -157,20 +157,27 @@ function MiniReportsView({ preview }: { preview: StructuredPreview }) {
   const cols = preview.columns.slice(0, 4);
   return (
     <div>
-      <div className="mb-4 text-lg font-bold text-slate-900">{preview.tableTitle}</div>
-      <div className="overflow-hidden rounded-xl border border-slate-200">
-        <div className="flex gap-3 border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+      <div className="vw-card-title-lg mb-4">{preview.tableTitle}</div>
+      <div className="overflow-hidden" style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)" }}>
+        <div
+          className="flex gap-3 px-4 py-2.5 uppercase tracking-wide"
+          style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)", fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}
+        >
           {cols.map((c) => (
             <span key={c.key} className="flex-1 truncate">{c.label}</span>
           ))}
           <span className="w-20 shrink-0 text-right">Status</span>
         </div>
         {preview.rows.slice(0, 8).map((r) => (
-          <div key={r.id} className="flex items-center gap-3 border-b border-slate-100 px-4 py-2.5 text-sm text-slate-600 last:border-0">
+          <div
+            key={r.id}
+            className="flex items-center gap-3 px-4 py-2.5 last:border-0"
+            style={{ borderBottom: "1px solid var(--vw-color-gray-100)", fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-600)" }}
+          >
             {cols.map((c) => (
               <span key={c.key} className="flex-1 truncate">{c.key === "id" ? r.id : r.cells[c.key]}</span>
             ))}
-            <span className="w-20 shrink-0 truncate text-right text-xs text-slate-400">{r.status}</span>
+            <span className="w-20 shrink-0 truncate text-right" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>{r.status}</span>
           </div>
         ))}
       </div>
@@ -181,20 +188,28 @@ function MiniReportsView({ preview }: { preview: StructuredPreview }) {
 function ChatHome({ data, preview, primary }: { data: AppData; preview: ChatPreview; primary: string }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="mb-4 text-lg font-bold text-slate-900">{preview.assistantName}</div>
+      <div className="vw-card-title-lg mb-4">{preview.assistantName}</div>
       <div className="flex-1 space-y-3 overflow-hidden">
         {preview.conversation.slice(0, 6).map((m, i) => (
           <div key={i} className={cn("flex", m.from === "user" ? "justify-end" : "justify-start")}>
             <div
-              className="max-w-[70%] rounded-xl px-4 py-2.5 text-sm leading-relaxed"
-              style={m.from === "user" ? { backgroundColor: primary, color: "#fff" } : { backgroundColor: "#f1f5f9", color: "#334155" }}
+              className="max-w-[70%] leading-relaxed"
+              style={{
+                borderRadius: "var(--vw-radius-md)",
+                padding: "10px 16px",
+                fontSize: "var(--vw-font-description)",
+                ...(m.from === "user" ? { backgroundColor: primary, color: "#fff" } : { backgroundColor: "var(--vw-color-gray-100)", color: "var(--vw-color-gray-700)" }),
+              }}
             >
               {m.text}
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-4 rounded-lg border border-slate-200 px-4 py-3 text-sm text-slate-400">
+      <div
+        className="mt-4"
+        style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)", padding: "12px 16px", fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-400)" }}
+      >
         Ask about {data.entities[0]?.name.toLowerCase() ?? "anything"}...
       </div>
     </div>
@@ -207,8 +222,11 @@ function MiniListView({ entityName, primary }: { entityName: string; primary: st
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <div className="text-lg font-bold text-slate-900">{entityName} List</div>
-        <div className="flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ backgroundColor: primary }}>
+        <div className="vw-card-title-lg">{entityName} List</div>
+        <div
+          className="flex shrink-0 items-center gap-1.5"
+          style={{ borderRadius: "var(--vw-radius-sm)", padding: "6px 12px", fontSize: "var(--vw-font-label-sm)", fontWeight: 500, backgroundColor: primary, color: "#fff" }}
+        >
           <Plus className="size-3.5" />
           New
         </div>
@@ -218,25 +236,25 @@ function MiniListView({ entityName, primary }: { entityName: string; primary: st
           {filters.map((f, i) => (
             <span
               key={f}
-              className="rounded-full px-3 py-1 text-xs font-medium"
-              style={i === 0 ? { backgroundColor: primary, color: "#fff" } : { backgroundColor: "#f1f5f9", color: "#64748b" }}
+              className={cn("vw-chip is-strong", i !== 0 && "vw-chip--neutral")}
+              style={i === 0 ? { backgroundColor: primary, color: "#fff" } : undefined}
             >
               {f}
             </span>
           ))}
         </div>
-        <div className="h-8 w-40 rounded-lg border border-slate-200 bg-white" />
+        <div className="h-8 w-40" style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }} />
       </div>
-      <div className="overflow-hidden rounded-xl border border-slate-200">
+      <div className="overflow-hidden" style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)" }}>
         {Array.from({ length: rowCount }).map((_, i) => (
-          <div key={i} className="flex items-center gap-3 border-b border-slate-100 px-4 py-3 last:border-0">
-            <div className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: i === 0 ? primary : "#e2e8f0" }} />
-            <div className="h-2.5 flex-1 rounded bg-slate-100" style={{ maxWidth: `${45 + ((i * 11) % 40)}%` }} />
-            <div className="h-2.5 w-16 shrink-0 rounded bg-slate-100" />
+          <div key={i} className="flex items-center gap-3 px-4 py-3 last:border-0" style={{ borderBottom: "1px solid var(--vw-color-gray-100)" }}>
+            <div className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: i === 0 ? primary : "var(--vw-color-gray-200)" }} />
+            <div className="h-2.5 flex-1 rounded" style={{ background: "var(--vw-color-gray-100)", maxWidth: `${45 + ((i * 11) % 40)}%` }} />
+            <div className="h-2.5 w-16 shrink-0 rounded" style={{ background: "var(--vw-color-gray-100)" }} />
           </div>
         ))}
       </div>
-      <div className="mt-3 text-xs text-slate-400">Showing {rowCount} of 212</div>
+      <div className="mt-3" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>Showing {rowCount} of 212</div>
     </div>
   );
 }
@@ -249,17 +267,21 @@ function MiniSettingsView({ primary }: { primary: string }) {
   let idx = 0;
   return (
     <div className="space-y-6">
-      <div className="text-lg font-bold text-slate-900">Settings</div>
+      <div className="vw-card-title-lg">Settings</div>
       {groups.map((g) => (
         <div key={g.label}>
-          <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{g.label}</div>
+          <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}>{g.label}</div>
           <div className="space-y-2">
             {g.rows.map((r) => {
               const i = idx++;
               return (
-                <div key={r} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3.5">
-                  <span className="text-sm text-slate-700">{r}</span>
-                  <span className="relative h-5 w-9 shrink-0 rounded-full" style={{ backgroundColor: i % 3 !== 1 ? primary : "#e2e8f0" }}>
+                <div
+                  key={r}
+                  className="flex items-center justify-between px-4 py-3.5"
+                  style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+                >
+                  <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>{r}</span>
+                  <span className="relative h-5 w-9 shrink-0 rounded-full" style={{ backgroundColor: i % 3 !== 1 ? primary : "var(--vw-color-gray-200)" }}>
                     <span className="absolute top-0.5 size-4 rounded-full bg-white shadow" style={{ left: i % 3 !== 1 ? "18px" : "2px" }} />
                   </span>
                 </div>
@@ -280,17 +302,21 @@ function MiniHistoryView({ primary }: { primary: string }) {
   let idx = 0;
   return (
     <div className="space-y-6">
-      <div className="text-lg font-bold text-slate-900">History</div>
+      <div className="vw-card-title-lg">History</div>
       {groups.map((g) => (
         <div key={g.label}>
-          <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{g.label}</div>
+          <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}>{g.label}</div>
           <div className="space-y-2">
             {g.items.map((t) => {
               const i = idx++;
               return (
-                <div key={t} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: i === 0 ? primary : "#e2e8f0" }} />
-                  <span className="text-sm text-slate-600">{t}</span>
+                <div
+                  key={t}
+                  className="flex items-center gap-3 px-4 py-3"
+                  style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+                >
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: i === 0 ? primary : "var(--vw-color-gray-200)" }} />
+                  <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-600)" }}>{t}</span>
                 </div>
               );
             })}
@@ -305,9 +331,9 @@ function ConceptStatRow({ items }: { items: { label: string; value: string }[] }
   return (
     <div className="mb-4 grid gap-3" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0,1fr))` }}>
       {items.map((it) => (
-        <div key={it.label} className="rounded-xl border border-slate-200 bg-white p-3">
-          <div className="text-xs text-slate-400">{it.label}</div>
-          <div className="mt-1 text-xl font-bold text-slate-900">{it.value}</div>
+        <div key={it.label} className="vw-card-section" style={{ padding: "12px" }}>
+          <div style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>{it.label}</div>
+          <div className="vw-card-metric-md mt-1">{it.value}</div>
         </div>
       ))}
     </div>
@@ -324,8 +350,11 @@ function ConceptTable({
   toneMap?: Record<string, string>;
 }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200">
-      <div className="flex gap-3 border-b border-slate-200 bg-slate-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+    <div className="overflow-hidden" style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)" }}>
+      <div
+        className="flex gap-3 px-4 py-2.5 uppercase tracking-wide"
+        style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)", fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}
+      >
         {columns.map((c) => (
           <span key={c.key} className={c.width ?? "flex-1"}>
             {c.label}
@@ -334,17 +363,23 @@ function ConceptTable({
         {toneMap && <span className="w-28 shrink-0 text-right">Status</span>}
       </div>
       {rows.map((r) => (
-        <div key={r.id} className="flex items-center gap-3 border-b border-slate-100 px-4 py-2.5 text-sm text-slate-600 last:border-0">
+        <div
+          key={r.id}
+          className="flex items-center gap-3 px-4 py-2.5 last:border-0"
+          style={{ borderBottom: "1px solid var(--vw-color-gray-100)", fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-600)" }}
+        >
           {columns.map((c, i) => (
-            <span key={c.key} className={cn("truncate", c.width ?? "flex-1", i === 0 && "font-mono text-xs text-slate-500")}>
+            <span
+              key={c.key}
+              className={cn("truncate", c.width ?? "flex-1")}
+              style={i === 0 ? { fontFamily: "monospace", fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" } : undefined}
+            >
               {r.cells[c.key]}
             </span>
           ))}
           {toneMap && r.status && (
             <span className="w-28 shrink-0 text-right">
-              <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-medium", toneMap[r.status] ?? "bg-slate-100 text-slate-600")}>
-                {r.status}
-              </span>
+              <span className={cn("vw-chip is-strong", toneMap[r.status] ?? "vw-chip--neutral")}>{r.status}</span>
             </span>
           )}
         </div>
@@ -366,8 +401,11 @@ function RanNetworkPlanningPanel({ primary }: { primary: string }) {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <div className="text-lg font-bold text-slate-900">Candidate Site Pipeline</div>
-        <div className="flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ backgroundColor: primary }}>
+        <div className="vw-card-title-lg">Candidate Site Pipeline</div>
+        <div
+          className="flex shrink-0 items-center gap-1.5"
+          style={{ borderRadius: "var(--vw-radius-sm)", padding: "6px 12px", fontSize: "var(--vw-font-label-sm)", fontWeight: 500, backgroundColor: primary, color: "#fff" }}
+        >
           <Plus className="size-3.5" />
           New Candidate
         </div>
@@ -381,43 +419,47 @@ function RanNetworkPlanningPanel({ primary }: { primary: string }) {
           { key: "priority", label: "Priority", width: "w-16 shrink-0" },
         ]}
         rows={RAN_CANDIDATE_SITES}
-        toneMap={{ Candidate: "bg-slate-100 text-slate-600", Survey: "bg-amber-50 text-amber-600", "RF Design": "bg-blue-50 text-blue-600" }}
+        toneMap={{ Candidate: "vw-chip--neutral", Survey: "vw-chip--warning", "RF Design": "vw-chip--info" }}
       />
     </div>
   );
 }
 
 const RAN_ROLLOUT_COLUMNS: { label: string; tone: string; sites: { id: string; name: string; manager: string }[] }[] = [
-  { label: "Permitting", tone: "border-t-amber-400", sites: [{ id: "NYC-0158", name: "Queens Small Cell 12", manager: "Marcus Reyes" }] },
+  { label: "Permitting", tone: "var(--vw-color-amber-400)", sites: [{ id: "NYC-0158", name: "Queens Small Cell 12", manager: "Marcus Reyes" }] },
   {
     label: "Construction",
-    tone: "border-t-blue-400",
+    tone: "var(--vw-color-blue-400)",
     sites: [
       { id: "NYC-0142", name: "Midtown Rooftop", manager: "Marcus Reyes" },
       { id: "CHI-0072", name: "West Loop Small Cell 3", manager: "Layla Ahmadi" },
     ],
   },
-  { label: "Integration", tone: "border-t-violet-400", sites: [{ id: "BOS-0104", name: "Somerville Colocation", manager: "Layla Ahmadi" }] },
-  { label: "Live", tone: "border-t-emerald-400", sites: [{ id: "CHI-0067", name: "Loop Rooftop 4", manager: "Marcus Reyes" }] },
+  { label: "Integration", tone: "var(--vw-color-purple-400)", sites: [{ id: "BOS-0104", name: "Somerville Colocation", manager: "Layla Ahmadi" }] },
+  { label: "Live", tone: "var(--vw-color-emerald-400)", sites: [{ id: "CHI-0067", name: "Loop Rooftop 4", manager: "Marcus Reyes" }] },
 ];
 
 function RanRolloutDeploymentPanel() {
   return (
     <div>
-      <div className="mb-4 text-lg font-bold text-slate-900">Rollout Board — PRG-5G-DENSIFY-24</div>
+      <div className="vw-card-title-lg mb-4">Rollout Board — PRG-5G-DENSIFY-24</div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {RAN_ROLLOUT_COLUMNS.map((col) => (
-          <div key={col.label} className={cn("rounded-xl border border-t-4 border-slate-200 bg-slate-50 p-3", col.tone)}>
-            <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div
+            key={col.label}
+            className="p-3"
+            style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)", borderTop: `4px solid ${col.tone}`, background: "var(--vw-color-gray-50)" }}
+          >
+            <div className="mb-2 flex items-center justify-between uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-500)" }}>
               {col.label}
-              <span className="rounded-full bg-white px-1.5 py-0.5 text-[10px] text-slate-400">{col.sites.length}</span>
+              <span className="rounded-full px-1.5 py-0.5" style={{ background: "var(--vw-color-white)", fontSize: "10px", color: "var(--vw-color-gray-400)" }}>{col.sites.length}</span>
             </div>
             <div className="space-y-2">
               {col.sites.map((s) => (
-                <div key={s.id} className="rounded-lg border border-slate-200 bg-white p-2.5">
-                  <div className="font-mono text-[10px] text-slate-400">{s.id}</div>
-                  <div className="truncate text-xs font-medium text-slate-700">{s.name}</div>
-                  <div className="mt-1 truncate text-[10px] text-slate-400">{s.manager}</div>
+                <div key={s.id} className="p-2.5" style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}>
+                  <div className="font-mono" style={{ fontSize: "10px", color: "var(--vw-color-gray-400)" }}>{s.id}</div>
+                  <div className="truncate" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>{s.name}</div>
+                  <div className="mt-1 truncate" style={{ fontSize: "10px", color: "var(--vw-color-gray-400)" }}>{s.manager}</div>
                 </div>
               ))}
             </div>
@@ -431,8 +473,8 @@ function RanRolloutDeploymentPanel() {
 function RanCommercialPanel() {
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <DollarSign className="size-5 text-emerald-500" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <DollarSign className="size-5" style={{ color: "var(--vw-color-emerald-500)" }} />
         Program Commercials — PRG-5G-DENSIFY-24
       </div>
       <ConceptStatRow
@@ -468,21 +510,21 @@ function RanNetworkIntelligencePanel() {
   ];
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <BarChart3 className="size-5 text-violet-500" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <BarChart3 className="size-5" style={{ color: "var(--vw-color-purple-500)" }} />
         Network Intelligence
       </div>
       <ConceptStatRow items={[{ label: "Avg. Coverage", value: "88%" }, { label: "Capacity Utilization", value: "71%" }, { label: "Predicted Congestion (90d)", value: "5 sites" }]} />
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
-        <div className="mb-4 text-sm font-semibold text-slate-700">Coverage by Market</div>
+      <div className="vw-card-section">
+        <div className="mb-4" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>Coverage by Market</div>
         <div className="space-y-3">
           {coverage.map((c) => (
             <div key={c.label} className="flex items-center gap-3">
-              <span className="w-32 shrink-0 truncate text-xs text-slate-500">{c.label}</span>
-              <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
-                <div className="h-full rounded-full bg-violet-400" style={{ width: `${c.value}%` }} />
+              <span className="w-32 shrink-0 truncate" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>{c.label}</span>
+              <div className="h-2 flex-1 overflow-hidden rounded-full" style={{ background: "var(--vw-color-gray-100)" }}>
+                <div className="h-full rounded-full" style={{ width: `${c.value}%`, background: "var(--vw-color-purple-400)" }} />
               </div>
-              <span className="w-9 shrink-0 text-right text-xs font-semibold text-slate-700">{c.value}%</span>
+              <span className="w-9 shrink-0 text-right" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>{c.value}%</span>
             </div>
           ))}
         </div>
@@ -498,22 +540,22 @@ const RAN_AI_INSIGHTS = [
 ];
 
 function RanAiInsightsPanel() {
-  const toneMap: Record<string, string> = { High: "bg-red-50 text-red-600", Medium: "bg-amber-50 text-amber-600", Low: "bg-emerald-50 text-emerald-600" };
+  const toneMap: Record<string, string> = { High: "vw-chip--error", Medium: "vw-chip--warning", Low: "vw-chip--success" };
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <Sparkles className="size-5 text-amber-500" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <Sparkles className="size-5" style={{ color: "var(--vw-color-amber-500)" }} />
         AI Insights
       </div>
       <div className="space-y-3">
         {RAN_AI_INSIGHTS.map((ins, i) => (
-          <div key={i} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4">
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-500">
+          <div key={i} className="vw-card-section flex items-start gap-3">
+            <span className="vw-card-icon-md vw-chip vw-chip--warning">
               <Sparkles className="size-4" />
             </span>
             <div className="flex-1">
-              <p className="text-sm leading-relaxed text-slate-700">{ins.text}</p>
-              <span className={cn("mt-2 inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium", toneMap[ins.impact])}>{ins.impact} impact</span>
+              <p className="leading-relaxed" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>{ins.text}</p>
+              <span className={cn("vw-chip is-strong mt-2 inline-flex", toneMap[ins.impact])}>{ins.impact} impact</span>
             </div>
           </div>
         ))}
@@ -531,25 +573,23 @@ const RAN_AI_AGENTS = [
 function RanAiAgentsPanel() {
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <Bot className="size-5 text-blue-500" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <Bot className="size-5" style={{ color: "var(--vw-color-blue-500)" }} />
         AI Agents
       </div>
       <div className="space-y-3">
         {RAN_AI_AGENTS.map((a) => (
-          <div key={a.name} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+          <div key={a.name} className="vw-card-section flex items-center gap-3">
+            <span className="vw-card-icon-md vw-chip vw-chip--info" style={{ borderRadius: "var(--vw-radius-full)" }}>
               <Bot className="size-4" />
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span className="truncate text-sm font-semibold text-slate-800">{a.name}</span>
-                <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-medium", a.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-500")}>
-                  {a.status}
-                </span>
+                <span className="truncate" style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{a.name}</span>
+                <span className={cn("vw-chip is-strong", a.status === "Active" ? "vw-chip--success" : "vw-chip--neutral")}>{a.status}</span>
               </div>
-              <p className="truncate text-xs text-slate-400">{a.role}</p>
-              <p className="mt-1 truncate text-[11px] text-slate-400">{a.lastAction}</p>
+              <p className="truncate" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>{a.role}</p>
+              <p className="mt-1 truncate" style={{ fontSize: "var(--vw-font-label-xs)", color: "var(--vw-color-gray-400)" }}>{a.lastAction}</p>
             </div>
           </div>
         ))}
@@ -561,8 +601,8 @@ function RanAiAgentsPanel() {
 function RanOperationsPanel() {
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <Wrench className="size-5 text-orange-500" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <Wrench className="size-5" style={{ color: "var(--vw-color-orange-500)" }} />
         Maintenance & Operations Queue
       </div>
       <ConceptStatRow items={[{ label: "Open Tickets", value: "31" }, { label: "Critical", value: "3" }, { label: "SLA at Risk", value: "5" }]} />
@@ -577,7 +617,7 @@ function RanOperationsPanel() {
           { id: "TCK-8837", cells: { ticket: "TCK-8837", site: "NYC-0142", issue: "Generator fuel low" }, status: "High" },
           { id: "TCK-8822", cells: { ticket: "TCK-8822", site: "BOS-0104", issue: "Scheduled antenna tilt adjustment" }, status: "Scheduled" },
         ]}
-        toneMap={{ Critical: "bg-red-50 text-red-600", High: "bg-amber-50 text-amber-600", Scheduled: "bg-blue-50 text-blue-600" }}
+        toneMap={{ Critical: "vw-chip--error", High: "vw-chip--warning", Scheduled: "vw-chip--info" }}
       />
     </div>
   );
@@ -590,20 +630,20 @@ function RanDigitalTwinPanel() {
   });
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <Boxes className="size-5 text-cyan-600" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <Boxes className="size-5" style={{ color: "var(--vw-color-cyan-600)" }} />
         Digital Twin — Site Topology
       </div>
-      <div className="rounded-xl border border-slate-200 bg-white p-5">
-        <div className="mb-4 text-xs text-slate-400">Simplified topology view — each tile represents a site, colored by lifecycle stage.</div>
+      <div className="vw-card-section">
+        <div className="mb-4" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>Simplified topology view — each tile represents a site, colored by lifecycle stage.</div>
         <div className="grid grid-cols-8 gap-2">
           {tiles.map((color, i) => (
-            <div key={i} className="flex aspect-square items-center justify-center rounded-md" style={{ backgroundColor: `${color}33` }}>
+            <div key={i} className="flex aspect-square items-center justify-center" style={{ borderRadius: "var(--vw-radius-sm)", backgroundColor: `${color}33` }}>
               <Radio className="size-3.5" style={{ color }} />
             </div>
           ))}
         </div>
-        <div className="mt-5 flex flex-wrap gap-4 text-[11px] text-slate-500">
+        <div className="mt-5 flex flex-wrap gap-4" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
           {[
             ["Candidate", "#94a3b8"],
             ["Survey", "#f59e0b"],
@@ -631,21 +671,25 @@ function RanPlatformAdminPanel({ primary }: { primary: string }) {
   let idx = 0;
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-900">
-        <ShieldCheck className="size-5 text-slate-600" />
+      <div className="mb-4 flex items-center gap-2 vw-card-title-lg">
+        <ShieldCheck className="size-5" style={{ color: "var(--vw-color-gray-600)" }} />
         Platform & Admin
       </div>
       <div className="space-y-6">
         {groups.map((g) => (
           <div key={g.label}>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{g.label}</div>
+            <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}>{g.label}</div>
             <div className="space-y-2">
               {g.rows.map((r) => {
                 const i = idx++;
                 return (
-                  <div key={r} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3.5">
-                    <span className="text-sm text-slate-700">{r}</span>
-                    <span className="relative h-5 w-9 shrink-0 rounded-full" style={{ backgroundColor: i % 3 !== 1 ? primary : "#e2e8f0" }}>
+                  <div
+                    key={r}
+                    className="flex items-center justify-between px-4 py-3.5"
+                    style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+                  >
+                    <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>{r}</span>
+                    <span className="relative h-5 w-9 shrink-0 rounded-full" style={{ backgroundColor: i % 3 !== 1 ? primary : "var(--vw-color-gray-200)" }}>
                       <span className="absolute top-0.5 size-4 rounded-full bg-white shadow" style={{ left: i % 3 !== 1 ? "18px" : "2px" }} />
                     </span>
                   </div>
@@ -685,9 +729,14 @@ const RAN_MENU = [
 
 function ConceptPagePlaceholder({ label }: { label: string }) {
   return (
-    <div className="flex h-64 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-white text-center">
-      <div className="text-sm font-semibold text-slate-700">{label}</div>
-      <p className="mt-1.5 max-w-xs text-xs text-slate-400">Illustrative concept page — detailed layout not yet generated for this section.</p>
+    <div
+      className="flex h-64 flex-col items-center justify-center border border-dashed text-center"
+      style={{ borderRadius: "var(--vw-radius-md)", borderColor: "var(--vw-color-slate-200)", background: "var(--vw-color-white)" }}
+    >
+      <div style={{ fontSize: "var(--vw-font-label-md)", fontWeight: 500, color: "var(--vw-color-gray-700)" }}>{label}</div>
+      <p className="mt-1.5 max-w-xs" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>
+        Illustrative concept page — detailed layout not yet generated for this section.
+      </p>
     </div>
   );
 }
@@ -781,26 +830,42 @@ export function AppIdeaPreview({ data }: { data: AppData }) {
   const activePage = allPages.find((p) => p.key === active) ?? allPages[0];
 
   return (
-    <div className="flex h-[calc(100vh-260px)] min-h-[560px] overflow-hidden rounded-lg bg-white text-sm">
-      <div className="w-56 shrink-0 overflow-y-auto border-r border-slate-100 bg-slate-50 p-4">
+    <div className="flex h-[calc(100vh-260px)] min-h-[560px] overflow-hidden text-sm" style={{ borderRadius: "var(--vw-radius-md)", background: "var(--vw-color-white)" }}>
+      <div
+        className="w-56 shrink-0 overflow-y-auto p-4"
+        style={{ borderRight: "1px solid var(--vw-color-gray-100)", background: "var(--vw-color-gray-50)" }}
+      >
         <div className="mb-5 flex items-center gap-2.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white" style={{ backgroundColor: primary }}>
+          <div
+            className="flex size-8 shrink-0 items-center justify-center"
+            style={{ borderRadius: "var(--vw-radius-sm)", fontSize: "var(--vw-font-label-md)", fontWeight: 500, backgroundColor: primary, color: "#fff" }}
+          >
             {initials}
           </div>
-          <div className="truncate text-sm font-semibold text-slate-800">{title}</div>
+          <div className="vw-card-title-sm truncate">{title}</div>
         </div>
 
         {sections.map((section, si) => (
           <div key={section.label || si} className="mb-4">
-            {section.label && <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{section.label}</div>}
+            {section.label && (
+              <div className="mb-1.5 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-400)" }}>
+                {section.label}
+              </div>
+            )}
             <div className="space-y-1">
               {section.pages.map((p) => (
                 <button
                   key={p.key}
                   type="button"
                   onClick={() => setActive(p.key)}
-                  className="block w-full truncate rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors"
-                  style={active === p.key ? { backgroundColor: primary, color: "#fff" } : { color: "#475569" }}
+                  className="block w-full truncate text-left transition-colors"
+                  style={{
+                    borderRadius: "var(--vw-radius-sm)",
+                    padding: "8px 12px",
+                    fontSize: "var(--vw-font-label-md)",
+                    fontWeight: 500,
+                    ...(active === p.key ? { backgroundColor: primary, color: "#fff" } : { color: "var(--vw-color-gray-600)" }),
+                  }}
                 >
                   {p.label}
                 </button>
@@ -810,33 +875,39 @@ export function AppIdeaPreview({ data }: { data: AppData }) {
         ))}
 
         {settingsPage && (
-          <div className="mt-3 border-t border-slate-200 pt-3">
+          <div className="mt-3 pt-3" style={{ borderTop: "1px solid var(--vw-color-slate-200)" }}>
             <button
               type="button"
               onClick={() => setActive(settingsPage.key)}
-              className="block w-full truncate rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors"
-              style={active === settingsPage.key ? { backgroundColor: primary, color: "#fff" } : { color: "#475569" }}
+              className="block w-full truncate text-left transition-colors"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                padding: "8px 12px",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                ...(active === settingsPage.key ? { backgroundColor: primary, color: "#fff" } : { color: "var(--vw-color-gray-600)" }),
+              }}
             >
               {settingsPage.label}
             </button>
           </div>
         )}
       </div>
-      <div className="flex-1 overflow-y-auto bg-slate-50/50 p-6">{activePage.node}</div>
+      <div className="flex-1 overflow-y-auto p-6" style={{ background: "var(--vw-color-gray-50)" }}>{activePage.node}</div>
     </div>
   );
 }
 
 function PageFrame({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-200">
-      <div className="flex items-center gap-1.5 border-b border-slate-200 bg-slate-50 px-3 py-2">
-        <span className="size-1.5 rounded-full bg-slate-300" />
-        <span className="size-1.5 rounded-full bg-slate-300" />
-        <span className="size-1.5 rounded-full bg-slate-300" />
-        <span className="ml-2 truncate text-[10px] font-medium text-slate-500">{label}</span>
+    <div className="overflow-hidden" style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)" }}>
+      <div className="flex items-center gap-1.5 px-3 py-2" style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)" }}>
+        <span className="size-1.5 rounded-full" style={{ background: "var(--vw-color-gray-300)" }} />
+        <span className="size-1.5 rounded-full" style={{ background: "var(--vw-color-gray-300)" }} />
+        <span className="size-1.5 rounded-full" style={{ background: "var(--vw-color-gray-300)" }} />
+        <span className="ml-2 truncate" style={{ fontSize: "10px", fontWeight: 500, color: "var(--vw-color-gray-500)" }}>{label}</span>
       </div>
-      <div className="h-[210px] overflow-hidden bg-white">
+      <div className="h-[210px] overflow-hidden" style={{ background: "var(--vw-color-white)" }}>
         <div className="w-[200%] p-6" style={{ transform: "scale(0.5)", transformOrigin: "top left" }}>
           {children}
         </div>
@@ -851,13 +922,17 @@ export function AppPagesOverview({ data }: { data: AppData }) {
 
   return (
     <div>
-      <p className="mb-4 text-sm text-muted-foreground">
+      <p className="mb-4" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
         {allPages.length} core pages sketched out from your requirements, grouped to match the application's menu — an illustrative site map, not the working application.
       </p>
       <div className="space-y-6">
         {sections.map((section, si) => (
           <div key={section.label || si}>
-            {section.label && <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{section.label}</div>}
+            {section.label && (
+              <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-500)" }}>
+                {section.label}
+              </div>
+            )}
             <div className="grid gap-4 sm:grid-cols-2">
               {section.pages.map((p) => (
                 <PageFrame key={p.key} label={p.label}>
@@ -869,7 +944,9 @@ export function AppPagesOverview({ data }: { data: AppData }) {
         ))}
         {settingsPage && (
           <div>
-            <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Settings</div>
+            <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-500)" }}>
+              Settings
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <PageFrame label={settingsPage.label}>{settingsPage.node}</PageFrame>
             </div>

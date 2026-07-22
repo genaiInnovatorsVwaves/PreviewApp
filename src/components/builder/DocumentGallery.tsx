@@ -42,24 +42,23 @@ const DOC_ICON: Record<GeneratedDocument["icon"], typeof FileText> = {
 function DocCard({ doc, onOpen }: { doc: GeneratedDocument; onOpen: () => void }) {
   const Icon = DOC_ICON[doc.icon];
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group flex flex-col rounded-xl border border-border/60 bg-card p-5 text-left shadow-[0_1px_2px_rgba(15,23,42,0.04),0_4px_16px_-2px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(15,23,42,0.06),0_12px_28px_-4px_rgba(15,23,42,0.14)]"
-    >
+    <button type="button" onClick={onOpen} className="vw-card-section vw-card--clickable vw-flex vw-flex-col text-left">
       <div className="flex items-center justify-between">
-        <span className="flex size-10 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+        <span className="vw-card-icon-md vw-chip vw-chip--info">
           <Icon className="size-5" />
         </span>
-        <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600">
+        <span className="vw-chip vw-chip--success is-strong">
           <CircleCheck className="size-3" />
           Ready
         </span>
       </div>
-      <h3 className="mt-3 text-base font-semibold text-foreground">{doc.title}</h3>
-      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{doc.description}</p>
-      <div className="mt-4 flex items-center border-t border-border pt-3 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1.5">
+      <h3 className="vw-card-title" style={{ marginTop: "var(--vw-space-lg)" }}>{doc.title}</h3>
+      <p className="vw-card-description" style={{ marginTop: "var(--vw-space-sm)" }}>{doc.description}</p>
+      <div
+        className="vw-card-footer-divider vw-flex vw-items-center"
+        style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}
+      >
+        <span className="vw-flex vw-items-center vw-gap-xs">
           <Clock className="size-3.5" />
           {doc.readMinutes} min read
         </span>
@@ -82,28 +81,27 @@ export function ProcessStepsModal({
   const [tab, setTab] = useState<"events" | "summary">("events");
   if (!open) return null;
 
+  const accent = "var(--color-primary, var(--vw-color-accent-500))";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6" onClick={onClose}>
       <div
-        className="no-scrollbar max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-[28px] bg-white p-6 shadow-2xl"
+        className="no-scrollbar max-h-[90vh] w-full max-w-4xl overflow-y-auto"
+        style={{ borderRadius: "var(--vw-radius-xl)", background: "var(--vw-color-white)", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)", padding: "24px" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+            <span className="vw-card-icon-lg vw-chip vw-chip--info">
               <Route className="size-5" />
             </span>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Process steps</h2>
-              <p className="text-sm text-slate-400">{appTitle}</p>
+              <h2 className="vw-card-title-lg">Process steps</h2>
+              <p style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}>{appTitle}</p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-          >
-            <X className="size-5" />
+          <button type="button" onClick={onClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
+            <X className="size-4" />
           </button>
         </div>
 
@@ -111,31 +109,47 @@ export function ProcessStepsModal({
           {gallery.processSteps.map((step, i) => (
             <div key={i} className="flex flex-1 flex-col items-center text-center">
               <div className="flex w-full items-center">
-                <span className={cn("h-0.5 flex-1", i === 0 ? "bg-transparent" : "bg-blue-500")} />
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white">
+                <span className="h-0.5 flex-1" style={{ background: i === 0 ? "transparent" : accent }} />
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full" style={{ background: accent, color: "#fff" }}>
                   <CircleCheck className="size-4" />
                 </span>
-                <span className={cn("h-0.5 flex-1", i === gallery.processSteps.length - 1 ? "bg-transparent" : "bg-blue-500")} />
+                <span className="h-0.5 flex-1" style={{ background: i === gallery.processSteps.length - 1 ? "transparent" : accent }} />
               </div>
-              <div className="mt-3 text-xs font-semibold text-slate-800 sm:text-sm">{step.label}</div>
-              <div className="mt-1 max-w-[130px] text-[11px] leading-snug text-slate-400">{step.description}</div>
+              <div className="mt-3 sm:text-sm" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{step.label}</div>
+              <div className="mt-1 max-w-[130px] leading-snug" style={{ fontSize: "11px", color: "var(--vw-color-gray-400)" }}>{step.description}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 overflow-hidden rounded-xl border border-slate-200">
-          <div className="flex gap-1 border-b border-slate-200 bg-slate-50 p-2">
+        <div className="mt-8 overflow-hidden" style={{ borderRadius: "var(--vw-radius-md)", border: "1px solid var(--vw-color-slate-200)" }}>
+          <div className="flex gap-1 p-2" style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)" }}>
             <button
               type="button"
               onClick={() => setTab("events")}
-              className={cn("rounded-lg px-3 py-1.5 text-sm font-medium", tab === "events" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500")}
+              className="px-3 py-1.5"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                background: tab === "events" ? "var(--vw-color-white)" : "transparent",
+                color: tab === "events" ? "var(--vw-color-gray-900)" : "var(--vw-color-gray-500)",
+                boxShadow: tab === "events" ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+              }}
             >
               Events
             </button>
             <button
               type="button"
               onClick={() => setTab("summary")}
-              className={cn("rounded-lg px-3 py-1.5 text-sm font-medium", tab === "summary" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500")}
+              className="px-3 py-1.5"
+              style={{
+                borderRadius: "var(--vw-radius-sm)",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                background: tab === "summary" ? "var(--vw-color-white)" : "transparent",
+                color: tab === "summary" ? "var(--vw-color-gray-900)" : "var(--vw-color-gray-500)",
+                boxShadow: tab === "summary" ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+              }}
             >
               Summary
             </button>
@@ -143,16 +157,20 @@ export function ProcessStepsModal({
           <div className="max-h-80 space-y-2 overflow-y-auto p-4">
             {tab === "events" ? (
               gallery.events.map((e, i) => (
-                <div key={i} className="flex items-center gap-3 rounded-lg bg-slate-50 px-4 py-3">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-blue-500 text-white">
+                <div
+                  key={i}
+                  className="flex items-center gap-3"
+                  style={{ borderRadius: "var(--vw-radius-sm)", background: "var(--vw-color-gray-50)", padding: "12px 16px" }}
+                >
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ background: accent, color: "#fff" }}>
                     <CircleCheck className="size-3.5" />
                   </span>
-                  <span className="text-sm text-slate-700">{e}</span>
+                  <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-700)" }}>{e}</span>
                 </div>
               ))
             ) : (
-              <p className="text-sm leading-relaxed text-slate-500">
-                Cloned <span className="font-mono text-slate-700">{gallery.repoUrl}</span>, parsed the codebase, and generated{" "}
+              <p className="leading-relaxed" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
+                Cloned <span className="font-mono" style={{ color: "var(--vw-color-gray-700)" }}>{gallery.repoUrl}</span>, parsed the codebase, and generated{" "}
                 {gallery.documents.length} documents from {gallery.events.length} analysis events across the repository.
               </p>
             )}
@@ -182,49 +200,51 @@ export function DocumentViewerModal({
     document.getElementById(`doc-sec-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  const accent = "var(--color-primary, var(--vw-color-accent-500))";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6" onClick={onClose}>
       <div
-        className="flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] bg-white shadow-2xl"
+        className="flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden"
+        style={{ borderRadius: "var(--vw-radius-xl)", background: "var(--vw-color-white)", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-6 py-4">
+        <div className="flex shrink-0 items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid var(--vw-color-slate-200)" }}>
           <div className="flex items-center gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+            <span className="vw-card-icon-md vw-chip vw-chip--info">
               <Icon className="size-4" />
             </span>
-            <h2 className="text-lg font-bold text-slate-900">{doc.title}</h2>
+            <h2 className="vw-card-title-lg">{doc.title}</h2>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-400">Raw</span>
-            <span className="relative h-5 w-9 shrink-0 rounded-full bg-slate-200">
-              <span className="absolute left-0.5 top-0.5 size-4 rounded-full bg-white shadow" />
-            </span>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-            >
-              <X className="size-5" />
+            <button type="button" onClick={onClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
+              <X className="size-4" />
             </button>
           </div>
         </div>
 
         <div className="flex flex-1 overflow-hidden">
-          <div className="no-scrollbar w-64 shrink-0 overflow-y-auto border-r border-slate-200 bg-slate-50 p-5">
-            <div className="mb-4 text-xs font-bold uppercase tracking-wide text-slate-800">{repoName}</div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">On this page</div>
+          <div
+            className="no-scrollbar w-64 shrink-0 overflow-y-auto p-5"
+            style={{ borderRight: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-gray-50)" }}
+          >
+            <div className="mb-4 uppercase tracking-wide" style={{ fontSize: "var(--vw-font-label-xs)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{repoName}</div>
+            <div className="mb-2 uppercase tracking-wide" style={{ fontSize: "11px", fontWeight: 500, color: "var(--vw-color-gray-400)" }}>On this page</div>
             <div className="space-y-0.5">
               {doc.sections.map((s) => (
                 <button
                   key={s.id}
                   type="button"
                   onClick={() => goTo(s.id)}
-                  className={cn(
-                    "block w-full truncate rounded-md px-2.5 py-1.5 text-left text-sm transition-colors",
-                    s.level === 2 && "pl-5 text-xs",
-                    active === s.id ? "bg-blue-50 font-medium text-blue-600" : "text-slate-600 hover:bg-slate-100"
-                  )}
+                  className={cn("block w-full truncate text-left transition-colors", s.level === 2 && "pl-5")}
+                  style={{
+                    borderRadius: "var(--vw-radius-xs)",
+                    padding: "6px 10px",
+                    fontSize: s.level === 2 ? "var(--vw-font-label-sm)" : "var(--vw-font-label-md)",
+                    fontWeight: active === s.id ? 500 : 400,
+                    background: active === s.id ? "var(--vw-color-accent-50)" : "transparent",
+                    color: active === s.id ? accent : "var(--vw-color-gray-600)",
+                  }}
                 >
                   {s.id}. {s.title}
                 </button>
@@ -235,12 +255,12 @@ export function DocumentViewerModal({
           <div className="no-scrollbar flex-1 overflow-y-auto p-8">
             {doc.sections.map((s) => (
               <div key={s.id} id={`doc-sec-${s.id}`} className="mb-8 scroll-mt-4">
-                <h3 className={cn("font-bold text-slate-900", s.level === 1 ? "text-xl" : "text-base")}>
+                <h3 className={s.level === 1 ? "vw-card-title-lg" : "vw-card-title-sm"}>
                   {s.id}. {s.title}
                 </h3>
                 <div className="mt-3 space-y-3">
                   {s.paragraphs.map((p, i) => (
-                    <p key={i} className="text-sm leading-relaxed text-slate-600">
+                    <p key={i} className="leading-relaxed" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-600)" }}>
                       {p}
                     </p>
                   ))}
@@ -263,18 +283,14 @@ export function DocumentGallery({ data }: { data: AppData }) {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-bold text-foreground">Documentation gallery</h2>
-        <button
-          type="button"
-          onClick={() => setProcessOpen(true)}
-          className="flex items-center gap-2 rounded-lg border border-primary/30 px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
-        >
+        <h2 className="vw-card-title-lg">Documentation gallery</h2>
+        <button type="button" onClick={() => setProcessOpen(true)} className="nst-btn nst-btn--action flex items-center gap-2">
           <Route className="size-4" />
           View process
         </button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="vw-grid vw-grid-cols-auto-320 vw-gap-lg">
         {gallery.documents.map((doc) => (
           <DocCard key={doc.key} doc={doc} onOpen={() => setOpenDoc(doc)} />
         ))}

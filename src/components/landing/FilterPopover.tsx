@@ -29,20 +29,29 @@ export function FilterPopover({
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-xl border border-border bg-card shadow-2xl">
-        <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
-          <h2 className="text-base font-bold text-foreground">Filters</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex size-7 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
+      <div
+        className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[90vw] overflow-hidden"
+        style={{
+          borderRadius: "var(--vw-radius-lg)",
+          border: "1px solid var(--vw-color-slate-200)",
+          background: "var(--vw-color-white)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)",
+        }}
+      >
+        <div
+          className="vw-flex vw-items-center vw-justify-between"
+          style={{ padding: "14px 20px", borderBottom: "1px solid var(--vw-color-slate-200)" }}
+        >
+          <h2 className="vw-card-title">Filters</h2>
+          <button type="button" onClick={onClose} className="nst-btn nst-btn--ghost nst-btn--icon nst-btn--sm">
             <X className="size-4" />
           </button>
         </div>
 
-        <div className="p-5">
-          <label className="mb-1.5 block text-sm font-medium text-foreground">Name</label>
+        <div style={{ padding: "20px" }}>
+          <label className="nst-input-label" style={{ display: "block", marginBottom: "6px" }}>
+            Name
+          </label>
           <input
             autoFocus
             type="text"
@@ -50,17 +59,21 @@ export function FilterPopover({
             onChange={(e) => setDraft({ name: e.target.value })}
             placeholder="Enter application name"
             maxLength={50}
-            className="w-full rounded-lg border border-border bg-card px-3.5 py-2.5 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            className="nst-input"
           />
-          <div className="mt-1 text-right text-xs text-muted-foreground">{draft.name.length} / 50</div>
+          <div
+            className="vw-flex vw-justify-end"
+            style={{ marginTop: "4px", fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-400)" }}
+          >
+            {draft.name.length} / 50
+          </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 border-t border-border px-5 py-3.5">
-          <button
-            type="button"
-            onClick={() => setDraft(EMPTY_FILTERS)}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
+        <div
+          className="vw-flex vw-items-center vw-justify-end vw-gap-sm"
+          style={{ padding: "14px 20px", borderTop: "1px solid var(--vw-color-slate-200)" }}
+        >
+          <button type="button" onClick={() => setDraft(EMPTY_FILTERS)} className="nst-btn">
             Reset to default
           </button>
           <button
@@ -69,7 +82,7 @@ export function FilterPopover({
               onApply(draft);
               onClose();
             }}
-            className="rounded-lg bg-foreground px-4 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            className="nst-btn nst-btn--filled"
           >
             Apply filters
           </button>

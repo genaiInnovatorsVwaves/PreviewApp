@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { cn } from "../../lib/utils";
 
 export interface TabDef {
   key: string;
@@ -16,8 +15,11 @@ export function Tabs({
   onChange: (key: string) => void;
 }) {
   return (
-    <div className="max-w-full overflow-x-auto border-b border-border bg-card/30 px-6">
-      <div className="inline-flex h-auto w-auto items-center justify-center gap-2 rounded-none border-0 bg-transparent p-0 py-3">
+    <div className="max-w-full overflow-x-auto px-6" style={{ borderBottom: "1px solid var(--vw-color-slate-200)" }}>
+      <div
+        className="inline-flex items-center gap-1"
+        style={{ margin: "12px 0", padding: "3px 4px", border: "1px solid var(--vw-color-gray-200)", borderRadius: "var(--vw-radius-sm)" }}
+      >
         {tabs.map((tab) => {
           const isActive = tab.key === active;
           return (
@@ -25,12 +27,15 @@ export function Tabs({
               key={tab.key}
               type="button"
               onClick={() => onChange(tab.key)}
-              className={cn(
-                "whitespace-nowrap rounded-lg border border-transparent px-4 py-2 text-sm font-medium transition-all",
-                isActive
-                  ? "border-primary/50 bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                  : "bg-transparent text-muted-foreground hover:bg-secondary hover:text-foreground"
-              )}
+              className="whitespace-nowrap transition-all"
+              style={{
+                padding: "6px 12px",
+                borderRadius: "var(--vw-radius-xs)",
+                fontSize: "var(--vw-font-label-md)",
+                fontWeight: 500,
+                background: isActive ? "var(--color-primary, var(--vw-color-accent-500))" : "transparent",
+                color: isActive ? "#fff" : "var(--vw-color-gray-600)",
+              }}
             >
               {tab.label}
             </button>

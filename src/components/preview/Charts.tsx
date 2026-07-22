@@ -1,4 +1,16 @@
-const PALETTE = ["#2a78d6", "#1baf7a", "#eda100", "#008300", "#4a3aa7", "#e34948", "#e87ba4", "#eb6834"];
+const PALETTE = [
+  "var(--vw-color-blue-500)",
+  "var(--vw-color-emerald-500)",
+  "var(--vw-color-amber-500)",
+  "var(--vw-color-purple-500)",
+  "var(--vw-color-cyan-500)",
+  "var(--vw-color-red-500)",
+  "var(--vw-color-pink-500)",
+  "var(--vw-color-orange-500)",
+];
+const GRID_LINE = "var(--vw-color-slate-200)";
+const VALUE_LABEL = "var(--vw-color-gray-600)";
+const AXIS_LABEL = "var(--vw-color-gray-400)";
 
 export function BarChart({ data, height = 220 }: { data: { label: string; value: number }[]; height?: number }) {
   const max = Math.max(...data.map((d) => d.value), 1);
@@ -6,9 +18,9 @@ export function BarChart({ data, height = 220 }: { data: { label: string; value:
   const barW = Math.min(slot * 0.5, 40);
   return (
     <svg viewBox="0 0 300 210" className="w-full" style={{ height }} role="img" aria-label="Bar chart">
-      <line x1="0" y1="170" x2="300" y2="170" stroke="#e1e0d9" strokeWidth="1" />
+      <line x1="0" y1="170" x2="300" y2="170" stroke={GRID_LINE} strokeWidth="1" />
       {[0.25, 0.5, 0.75].map((f) => (
-        <line key={f} x1="0" y1={170 - f * 150} x2="300" y2={170 - f * 150} stroke="#e1e0d9" strokeWidth="1" strokeDasharray="3,3" />
+        <line key={f} x1="0" y1={170 - f * 150} x2="300" y2={170 - f * 150} stroke={GRID_LINE} strokeWidth="1" strokeDasharray="3,3" />
       ))}
       {data.map((d, i) => {
         const cx = i * slot + slot / 2;
@@ -18,10 +30,10 @@ export function BarChart({ data, height = 220 }: { data: { label: string; value:
         return (
           <g key={i}>
             <rect x={x} y={y} width={barW} height={h} rx="3" fill={PALETTE[i % PALETTE.length]} />
-            <text x={cx} y={y - 6} textAnchor="middle" fontSize="10" fill="#52514e">
+            <text x={cx} y={y - 6} textAnchor="middle" fontSize="10" fill={VALUE_LABEL}>
               {d.value}
             </text>
-            <text x={cx} y="185" textAnchor="middle" fontSize="9" fill="#898781">
+            <text x={cx} y="185" textAnchor="middle" fontSize="9" fill={AXIS_LABEL}>
               {d.label.length > 12 ? d.label.slice(0, 11) + "…" : d.label}
             </text>
           </g>
@@ -56,16 +68,16 @@ export function DonutChart({ data, height = 220 }: { data: { label: string; valu
     <div className="flex items-center gap-6">
       <svg viewBox="0 0 180 180" style={{ height, width: height }} role="img" aria-label="Donut chart">
         {arcs.map((a, i) => (
-          <path key={i} d={a.d} fill={a.color} stroke="#fcfcfb" strokeWidth="2" />
+          <path key={i} d={a.d} fill={a.color} stroke="var(--vw-color-white)" strokeWidth="2" />
         ))}
-        <circle cx={cx} cy={cy} r={38} fill="#ffffff" />
+        <circle cx={cx} cy={cy} r={38} fill="var(--vw-color-white)" />
       </svg>
       <div className="space-y-1.5">
         {data.map((d, i) => (
-          <div key={i} className="flex items-center gap-2 text-xs">
+          <div key={i} className="flex items-center gap-2" style={{ fontSize: "var(--vw-font-label-sm)" }}>
             <span className="size-2.5 shrink-0 rounded-sm" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
-            <span className="text-foreground">{d.label}</span>
-            <span className="text-muted-foreground">{d.value}</span>
+            <span style={{ color: "var(--vw-color-gray-800)" }}>{d.label}</span>
+            <span style={{ color: "var(--vw-color-gray-500)" }}>{d.value}</span>
           </div>
         ))}
       </div>
@@ -98,7 +110,7 @@ export function LineChart({
     <div>
       <svg viewBox="0 0 300 195" className="w-full" style={{ height }} role="img" aria-label="Line chart">
         {[0.25, 0.5, 0.75, 1].map((f) => (
-          <line key={f} x1="10" y1={170 - f * 150} x2="290" y2={170 - f * 150} stroke="#e1e0d9" strokeWidth="1" strokeDasharray="3,3" />
+          <line key={f} x1="10" y1={170 - f * 150} x2="290" y2={170 - f * 150} stroke={GRID_LINE} strokeWidth="1" strokeDasharray="3,3" />
         ))}
         <polyline points={toPoints(seriesA).join(" ")} fill="none" stroke={PALETTE[0]} strokeWidth="2" />
         <polyline points={toPoints(seriesB).join(" ")} fill="none" stroke={PALETTE[1]} strokeWidth="2" />
@@ -111,15 +123,19 @@ export function LineChart({
         {seriesA.map((d, i) => {
           const x = (i / (n - 1)) * 280 + 10;
           return (
-            <text key={i} x={x} y="187" textAnchor="middle" fontSize="9" fill="#898781">
+            <text key={i} x={x} y="187" textAnchor="middle" fontSize="9" fill={AXIS_LABEL}>
               {d.label}
             </text>
           );
         })}
       </svg>
-      <div className="mt-1 flex items-center justify-center gap-4 text-xs">
-        <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full" style={{ backgroundColor: PALETTE[0] }} />{labelA}</span>
-        <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full" style={{ backgroundColor: PALETTE[1] }} />{labelB}</span>
+      <div className="mt-1 flex items-center justify-center gap-4" style={{ fontSize: "var(--vw-font-label-sm)" }}>
+        <span className="flex items-center gap-1.5" style={{ color: "var(--vw-color-gray-600)" }}>
+          <span className="size-2.5 rounded-full" style={{ backgroundColor: PALETTE[0] }} />{labelA}
+        </span>
+        <span className="flex items-center gap-1.5" style={{ color: "var(--vw-color-gray-600)" }}>
+          <span className="size-2.5 rounded-full" style={{ backgroundColor: PALETTE[1] }} />{labelB}
+        </span>
       </div>
     </div>
   );

@@ -429,6 +429,16 @@ const baseCatalog: CatalogCard[] = [
 
   // ---- ESM: internal enterprise/PM tools reverse-engineered into documentation ----
   {
+    id: "contract-lifecycle-manager",
+    title: "Contract Lifecycle Manager",
+    category: "Reverse-engineered documentation",
+    description:
+      "Legacy contract lifecycle management suite reverse-engineered into full documentation — proposal generation, clause-level negotiation and redlining, e-signature workflow, vendor master data, and a reusable clause/template repository, all traced from source.",
+    author: "Naman",
+    minutesAgo: 5,
+    platforms: ["esm"],
+  },
+  {
     id: "facilities-scheduler",
     title: "Facilities Scheduler",
     category: "Reverse-engineered documentation",
@@ -513,6 +523,7 @@ export const PLATFORM_TOTAL: Record<PlatformKey, number> = {
 
 const OSI_TOP = ["devsecops", "managed-service-ops", "finops", "product-lifecycle-management"];
 const ESI_TOP = ["telecom-rollout", "construct-os", "oil-gas", "product-lifecycle-management"];
+const ESM_TOP = ["contract-lifecycle-manager"];
 
 /**
  * Per-platform display order: a curated/finalized prefix, followed by every other catalog entry
@@ -533,5 +544,5 @@ export const PLATFORM_ORDER: Record<PlatformKey, string[]> = {
   // so these intentionally do NOT reuse the chat-driven /*i flagships (product-lifecycle-management, ran, etc.).
   nsm: orderFor("nsm"),
   osm: orderFor("osm"),
-  esm: orderFor("esm"),
+  esm: orderFor("esm", ESM_TOP),
 };

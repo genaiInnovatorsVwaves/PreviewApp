@@ -61,26 +61,26 @@ function UIUXPanel({ data }: { data: AppData }) {
         <CardHeader>
           <CardTitle className="justify-between">
             <span className="flex items-center gap-2">
-              <MonitorSmartphone className="size-5 text-primary" />
+              <MonitorSmartphone className="size-5" style={{ color: "var(--color-primary, var(--vw-color-accent-500))" }} />
               Concept Preview
             </span>
             <button
               type="button"
               title="Expand — view all pages"
               onClick={() => setExpanded(true)}
-              className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              className="nst-btn nst-btn--icon nst-btn--sm"
             >
               <Maximize2 className="size-3.5" />
             </button>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="-mt-2 mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <p className="-mt-2 mb-1 flex items-center gap-1.5" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
             <Info className="size-3.5 shrink-0" />
             Illustrative concept only, generated from your requirements — not the live application.
           </p>
-          <p className="mb-3 text-xs text-muted-foreground">Click a page in the sidebar to preview it.</p>
-          <div className="overflow-hidden rounded-lg border border-border">
+          <p className="mb-3" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>Click a page in the sidebar to preview it.</p>
+          <div style={{ overflow: "hidden", borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)" }}>
             <AppIdeaPreview data={data} />
           </div>
         </CardContent>
@@ -95,26 +95,38 @@ function UIUXPanel({ data }: { data: AppData }) {
 
 function DataModelPanel({ data }: { data: AppData }) {
   const [view, setView] = useState<"er" | "dictionary">("dictionary");
+  const accent = "var(--color-primary, var(--vw-color-accent-500))";
   return (
     <div>
-      <div className="mb-4 inline-flex rounded-lg border border-border bg-muted/40 p-1">
+      <div
+        className="mb-4 inline-flex items-center gap-1"
+        style={{ padding: "3px 4px", border: "1px solid var(--vw-color-gray-200)", borderRadius: "var(--vw-radius-sm)" }}
+      >
         <button
           type="button"
           onClick={() => setView("dictionary")}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-            view === "dictionary" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-          )}
+          style={{
+            padding: "6px 12px",
+            borderRadius: "var(--vw-radius-xs)",
+            fontSize: "var(--vw-font-label-md)",
+            fontWeight: 500,
+            background: view === "dictionary" ? accent : "transparent",
+            color: view === "dictionary" ? "#fff" : "var(--vw-color-gray-600)",
+          }}
         >
           Data Dictionary
         </button>
         <button
           type="button"
           onClick={() => setView("er")}
-          className={cn(
-            "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-            view === "er" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-          )}
+          style={{
+            padding: "6px 12px",
+            borderRadius: "var(--vw-radius-xs)",
+            fontSize: "var(--vw-font-label-md)",
+            fontWeight: 500,
+            background: view === "er" ? accent : "transparent",
+            color: view === "er" ? "#fff" : "var(--vw-color-gray-600)",
+          }}
         >
           ER Diagram
         </button>
@@ -124,16 +136,16 @@ function DataModelPanel({ data }: { data: AppData }) {
         <Card>
           <CardHeader>
             <CardTitle>
-              <Database className="size-5 text-primary" />
+              <Database className="size-5" style={{ color: accent }} />
               Entity Relationship Diagram
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ERDiagram data={data} />
-            <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
-              <span><span className="rounded bg-amber-50 px-1 py-0.5 font-bold text-amber-600">PK</span> Primary Key</span>
-              <span><span className="rounded bg-blue-50 px-1 py-0.5 font-bold text-blue-600">FK</span> Foreign Key</span>
-              <span><span className="rounded bg-violet-50 px-1 py-0.5 font-bold text-violet-600">UK</span> Unique Key</span>
+            <div className="mt-4 flex flex-wrap gap-4" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
+              <span><span className="vw-chip vw-chip--warning is-strong">PK</span> Primary Key</span>
+              <span><span className="vw-chip vw-chip--info is-strong">FK</span> Foreign Key</span>
+              <span><span className="vw-chip vw-chip--purple is-strong">UK</span> Unique Key</span>
             </div>
           </CardContent>
         </Card>
@@ -144,43 +156,50 @@ function DataModelPanel({ data }: { data: AppData }) {
   );
 }
 
+const eyebrowStyle = {
+  fontSize: "var(--vw-font-label-sm)",
+  fontWeight: 500,
+  color: "var(--vw-color-gray-500)",
+} as const;
+
 function WorkflowDetail({ workflow, onPreview }: { workflow: WorkflowItem; onPreview: () => void }) {
+  const accent = "var(--color-primary, var(--vw-color-accent-500))";
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-muted/30 p-3">
-        <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          <Zap className="size-3.5 text-amber-500" />
+      <div className="vw-card-child-shaded">
+        <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+          <Zap className="size-3.5" style={{ color: "var(--vw-color-amber-500)" }} />
           Trigger Condition
         </div>
-        <p className="mt-1.5 text-sm text-foreground">{workflow.trigger}</p>
+        <p className="mt-1.5" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-800)" }}>{workflow.trigger}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-lg border border-border bg-muted/30 p-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            <ShieldCheck className="size-3.5 text-blue-500" />
+        <div className="vw-card-child-shaded">
+          <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+            <ShieldCheck className="size-3.5" style={{ color: "var(--vw-color-blue-500)" }} />
             Business Rules
           </div>
           <ul className="mt-2 space-y-1.5">
             {workflow.rules.map((r, i) => (
-              <li key={i} className="flex gap-2 text-sm text-foreground">
-                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-muted-foreground" />
+              <li key={i} className="flex gap-2" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-800)" }}>
+                <span className="mt-1.5 size-1 shrink-0 rounded-full" style={{ background: "var(--vw-color-gray-400)" }} />
                 {r}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-lg border border-border bg-muted/30 p-3">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            <BellRing className="size-3.5 text-violet-500" />
+        <div className="vw-card-child-shaded">
+          <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+            <BellRing className="size-3.5" style={{ color: "var(--vw-color-violet-500)" }} />
             Notifications
           </div>
           <ul className="mt-2 space-y-1.5">
             {workflow.notifications.map((n, i) => (
-              <li key={i} className="text-sm text-foreground">
-                <span className="font-medium">{n.event}</span>
-                <span className="text-muted-foreground"> → {n.channel} → {n.recipient}</span>
+              <li key={i} style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-800)" }}>
+                <span style={{ fontWeight: 500 }}>{n.event}</span>
+                <span style={{ color: "var(--vw-color-gray-500)" }}> → {n.channel} → {n.recipient}</span>
               </li>
             ))}
           </ul>
@@ -189,15 +208,11 @@ function WorkflowDetail({ workflow, onPreview }: { workflow: WorkflowItem; onPre
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            <Waypoints className="size-3.5 text-emerald-500" />
+          <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+            <Waypoints className="size-3.5" style={{ color: "var(--vw-color-emerald-500)" }} />
             Sequencing
           </div>
-          <button
-            type="button"
-            onClick={onPreview}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
+          <button type="button" onClick={onPreview} className="nst-btn nst-btn--filled nst-btn--sm flex items-center gap-1.5">
             <Workflow className="size-3.5" />
             Preview
           </button>
@@ -206,11 +221,16 @@ function WorkflowDetail({ workflow, onPreview }: { workflow: WorkflowItem; onPre
           {workflow.steps.map((s, j) => {
             const Icon = stepIcon[s.type];
             return (
-              <li key={j} className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 px-3 py-2">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-card text-[10px] font-semibold text-muted-foreground">{j + 1}</span>
-                <Icon className="size-4 shrink-0 text-primary" />
-                <span className="text-sm text-foreground">{s.label}</span>
-                <span className="ml-auto shrink-0 text-xs text-muted-foreground">{s.actor}</span>
+              <li key={j} className="vw-card-child-shaded flex items-center gap-3" style={{ padding: "8px 12px" }}>
+                <span
+                  className="flex size-6 shrink-0 items-center justify-center rounded-full"
+                  style={{ background: "var(--vw-color-white)", fontSize: "10px", fontWeight: 500, color: "var(--vw-color-gray-500)" }}
+                >
+                  {j + 1}
+                </span>
+                <Icon className="size-4 shrink-0" style={{ color: accent }} />
+                <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-800)" }}>{s.label}</span>
+                <span className="ml-auto shrink-0" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>{s.actor}</span>
               </li>
             );
           })}
@@ -228,15 +248,15 @@ function WorkflowsPanel({ data }: { data: AppData }) {
         <Accordion
           key={i}
           icon={
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+            <span className="vw-card-icon-sm vw-chip vw-chip--info">
               <Workflow className="size-4" />
             </span>
           }
           title={w.title}
           subtitle={w.description}
           right={
-            <div className="hidden gap-4 text-right text-xs text-muted-foreground sm:flex">
-              <span>SLA: <span className="font-medium text-foreground">{w.sla}</span></span>
+            <div className="hidden gap-4 text-right sm:flex" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>
+              <span>SLA: <span style={{ fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{w.sla}</span></span>
               <span>{w.level}</span>
               <span>Personas: {w.personas}</span>
             </div>
@@ -269,46 +289,46 @@ function AIAgentPanel({ data }: { data: AppData }) {
         <Card key={i}>
           <CardHeader>
             <CardTitle>
-              <Bot className="size-5 text-primary" />
+              <Bot className="size-5" style={{ color: "var(--color-primary, var(--vw-color-accent-500))" }} />
               {a.name}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">{a.description}</p>
+            <p style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>{a.description}</p>
 
-            <div className="rounded-lg border border-border bg-muted/30 p-3">
-              <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                <Zap className="size-3.5 text-amber-500" />
+            <div className="vw-card-child-shaded">
+              <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+                <Zap className="size-3.5" style={{ color: "var(--vw-color-amber-500)" }} />
                 Trigger
               </div>
-              <p className="mt-1.5 text-sm text-foreground">{a.trigger}</p>
+              <p className="mt-1.5" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-800)" }}>{a.trigger}</p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-lg border border-border bg-muted/30 p-3">
-                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  <ArrowRightToLine className="size-3.5 text-blue-500" />
+              <div className="vw-card-child-shaded">
+                <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+                  <ArrowRightToLine className="size-3.5" style={{ color: "var(--vw-color-blue-500)" }} />
                   Input
                 </div>
                 <ul className="mt-2 space-y-2">
                   {a.inputs.map((io, j) => (
-                    <li key={j} className="text-sm">
-                      <span className="font-mono text-xs font-medium text-foreground">{io.name}</span>
-                      <span className="block text-xs text-muted-foreground">{io.description}</span>
+                    <li key={j} style={{ fontSize: "var(--vw-font-description)" }}>
+                      <span className="font-mono" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{io.name}</span>
+                      <span className="block" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>{io.description}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="rounded-lg border border-border bg-muted/30 p-3">
-                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  <ArrowLeftFromLine className="size-3.5 text-emerald-500" />
+              <div className="vw-card-child-shaded">
+                <div className="flex items-center gap-1.5 uppercase tracking-wide" style={eyebrowStyle}>
+                  <ArrowLeftFromLine className="size-3.5" style={{ color: "var(--vw-color-emerald-500)" }} />
                   Output
                 </div>
                 <ul className="mt-2 space-y-2">
                   {a.outputs.map((io, j) => (
-                    <li key={j} className="text-sm">
-                      <span className="font-mono text-xs font-medium text-foreground">{io.name}</span>
-                      <span className="block text-xs text-muted-foreground">{io.description}</span>
+                    <li key={j} style={{ fontSize: "var(--vw-font-description)" }}>
+                      <span className="font-mono" style={{ fontSize: "var(--vw-font-label-sm)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{io.name}</span>
+                      <span className="block" style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>{io.description}</span>
                     </li>
                   ))}
                 </ul>
@@ -323,7 +343,13 @@ function AIAgentPanel({ data }: { data: AppData }) {
 
 function PermissionCell({ on }: { on: boolean }) {
   return (
-    <span className={cn("flex size-6 items-center justify-center rounded-full", on ? "bg-emerald-50 text-emerald-600" : "bg-muted text-muted-foreground/50")}>
+    <span
+      className="flex size-6 items-center justify-center rounded-full"
+      style={{
+        background: on ? "var(--vw-color-emerald-50)" : "var(--vw-color-gray-100)",
+        color: on ? "var(--vw-color-emerald-600)" : "var(--vw-color-gray-400)",
+      }}
+    >
       {on ? <Check className="size-3.5" strokeWidth={3} /> : <X className="size-3.5" />}
     </span>
   );
@@ -336,35 +362,35 @@ function AccessPanel({ data }: { data: AppData }) {
         <Accordion
           key={i}
           icon={
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+            <span className="vw-card-icon-sm vw-chip vw-chip--info">
               <KeyRound className="size-4" />
             </span>
           }
           title={r.name}
           subtitle={r.description}
-          right={<span className="hidden shrink-0 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground sm:inline-block">{r.scope}</span>}
+          right={<span className="vw-chip vw-chip--neutral is-strong hidden shrink-0 sm:inline-flex">{r.scope}</span>}
         >
-          <div className="overflow-x-auto rounded-lg border border-border">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
+          <div className="overflow-x-auto" style={{ borderRadius: "var(--vw-radius-sm)", border: "1px solid var(--vw-color-slate-200)" }}>
+            <table className="nst-table">
+              <thead>
                 <tr>
-                  <th className="px-4 py-2.5 font-medium">Resource</th>
-                  <th className="px-4 py-2.5 text-center font-medium">Create</th>
-                  <th className="px-4 py-2.5 text-center font-medium">Read</th>
-                  <th className="px-4 py-2.5 text-center font-medium">Update</th>
-                  <th className="px-4 py-2.5 text-center font-medium">Delete</th>
-                  <th className="px-4 py-2.5 text-center font-medium">Approve</th>
+                  <th>Resource</th>
+                  <th style={{ textAlign: "center" }}>Create</th>
+                  <th style={{ textAlign: "center" }}>Read</th>
+                  <th style={{ textAlign: "center" }}>Update</th>
+                  <th style={{ textAlign: "center" }}>Delete</th>
+                  <th style={{ textAlign: "center" }}>Approve</th>
                 </tr>
               </thead>
               <tbody>
                 {r.permissions.map((p, j) => (
-                  <tr key={j} className="border-t border-border">
-                    <td className="px-4 py-2.5 text-xs font-medium text-foreground">{p.resource}</td>
-                    <td className="px-4 py-2.5 text-center"><PermissionCell on={p.create} /></td>
-                    <td className="px-4 py-2.5 text-center"><PermissionCell on={p.read} /></td>
-                    <td className="px-4 py-2.5 text-center"><PermissionCell on={p.update} /></td>
-                    <td className="px-4 py-2.5 text-center"><PermissionCell on={p.delete} /></td>
-                    <td className="px-4 py-2.5 text-center"><PermissionCell on={p.approve} /></td>
+                  <tr key={j}>
+                    <td className="nst-table-td--primary">{p.resource}</td>
+                    <td style={{ textAlign: "center" }}><PermissionCell on={p.create} /></td>
+                    <td style={{ textAlign: "center" }}><PermissionCell on={p.read} /></td>
+                    <td style={{ textAlign: "center" }}><PermissionCell on={p.update} /></td>
+                    <td style={{ textAlign: "center" }}><PermissionCell on={p.delete} /></td>
+                    <td style={{ textAlign: "center" }}><PermissionCell on={p.approve} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -377,10 +403,10 @@ function AccessPanel({ data }: { data: AppData }) {
 }
 
 const severityTone: Record<string, string> = {
-  Critical: "bg-red-50 text-red-600",
-  High: "bg-orange-50 text-orange-600",
-  Medium: "bg-amber-50 text-amber-600",
-  Low: "bg-slate-100 text-slate-600",
+  Critical: "vw-chip--error",
+  High: "vw-chip--orange",
+  Medium: "vw-chip--warning",
+  Low: "vw-chip--neutral",
 };
 
 function BusinessRulesPanel({ data }: { data: AppData }) {
@@ -391,30 +417,30 @@ function BusinessRulesPanel({ data }: { data: AppData }) {
           <CardContent className="space-y-3 pt-6">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex items-center gap-2">
-                <ScrollText className="size-4 shrink-0 text-primary" />
-                <span className="text-sm font-semibold text-foreground">{r.name}</span>
+                <ScrollText className="size-4 shrink-0" style={{ color: "var(--color-primary, var(--vw-color-accent-500))" }} />
+                <span style={{ fontSize: "var(--vw-font-description)", fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{r.name}</span>
               </div>
               <div className="flex shrink-0 items-center gap-2">
-                <span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">{r.entity}</span>
-                <span className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium", severityTone[r.severity])}>
+                <span className="vw-chip vw-chip--neutral is-strong">{r.entity}</span>
+                <span className={cn("vw-chip is-strong flex items-center gap-1", severityTone[r.severity])}>
                   <AlertTriangle className="size-3" />
                   {r.severity}
                 </span>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">{r.description}</p>
-            <div className="grid gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs sm:grid-cols-3">
+            <p style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>{r.description}</p>
+            <div className="vw-card-child-shaded grid gap-2 sm:grid-cols-3" style={{ fontSize: "var(--vw-font-label-sm)" }}>
               <div>
-                <div className="font-semibold uppercase tracking-wide text-muted-foreground">Trigger</div>
-                <div className="mt-1 text-foreground">{r.trigger}</div>
+                <div className="uppercase tracking-wide" style={{ fontWeight: 500, color: "var(--vw-color-gray-500)" }}>Trigger</div>
+                <div className="mt-1" style={{ color: "var(--vw-color-gray-800)" }}>{r.trigger}</div>
               </div>
               <div>
-                <div className="font-semibold uppercase tracking-wide text-muted-foreground">Condition</div>
-                <div className="mt-1 text-foreground">{r.condition}</div>
+                <div className="uppercase tracking-wide" style={{ fontWeight: 500, color: "var(--vw-color-gray-500)" }}>Condition</div>
+                <div className="mt-1" style={{ color: "var(--vw-color-gray-800)" }}>{r.condition}</div>
               </div>
               <div>
-                <div className="font-semibold uppercase tracking-wide text-muted-foreground">Enforcement</div>
-                <div className="mt-1 text-foreground">{r.enforcement}</div>
+                <div className="uppercase tracking-wide" style={{ fontWeight: 500, color: "var(--vw-color-gray-500)" }}>Enforcement</div>
+                <div className="mt-1" style={{ color: "var(--vw-color-gray-800)" }}>{r.enforcement}</div>
               </div>
             </div>
           </CardContent>

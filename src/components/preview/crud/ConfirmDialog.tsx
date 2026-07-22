@@ -15,25 +15,26 @@ export function ConfirmDialog({
 }) {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-6" onClick={onCancel}>
-      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex size-11 items-center justify-center rounded-full bg-red-50 text-red-500">
+      <div
+        className="w-full max-w-sm"
+        style={{ borderRadius: "var(--vw-radius-lg)", background: "var(--vw-color-white)", boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)", padding: "24px" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          className="flex size-11 items-center justify-center rounded-full"
+          style={{ background: "var(--vw-color-red-50)", color: "var(--vw-color-red-500)" }}
+        >
           <TriangleAlert className="size-5" />
         </div>
-        <h2 className="mt-4 text-base font-bold text-slate-900">{title}</h2>
-        <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{message}</p>
+        <h2 className="vw-card-title mt-4">{title}</h2>
+        <p className="mt-1.5 leading-relaxed" style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
+          {message}
+        </p>
         <div className="mt-6 flex items-center justify-end gap-3">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-lg border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-          >
+          <button type="button" onClick={onCancel} className="nst-btn">
             Cancel
           </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700"
-          >
+          <button type="button" onClick={onConfirm} className="nst-btn nst-btn--danger">
             {confirmLabel}
           </button>
         </div>

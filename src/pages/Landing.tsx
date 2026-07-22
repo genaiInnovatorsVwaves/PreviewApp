@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Plus, Filter, Grid2x2, User, Clock } from "lucide-react";
+import { Plus, Filter, User, Clock } from "lucide-react";
 import { catalog, PLATFORM_ORDER } from "../data/catalog";
 import type { PlatformKey } from "../data/types";
 import { timeAgo, authorFullName, cn } from "../lib/utils";
+import { getCardVisual } from "../lib/cardVisuals";
 import { CreateAppDialog } from "../components/landing/CreateAppDialog";
 import { GitImportDialog } from "../components/landing/GitImportDialog";
 import { FilterPopover, EMPTY_FILTERS, type CatalogFilters } from "../components/landing/FilterPopover";
@@ -37,7 +38,7 @@ export default function Landing({ platform, createMode = "agent" }: { platform?:
             type="button"
             title="New application"
             onClick={() => setCreateOpen(true)}
-            className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            className="nst-icon-btn shrink-0"
           >
             <Plus className="size-4" />
           </button>
@@ -46,16 +47,14 @@ export default function Landing({ platform, createMode = "agent" }: { platform?:
               type="button"
               title="Filters"
               onClick={() => setFilterOpen((o) => !o)}
-              className={cn(
-                "relative flex size-9 shrink-0 items-center justify-center rounded-lg border transition-colors",
-                activeFilterCount > 0
-                  ? "border-primary/40 bg-secondary text-primary"
-                  : "border-border bg-card text-muted-foreground hover:bg-secondary hover:text-foreground"
-              )}
+              className={cn("nst-icon-btn relative shrink-0", activeFilterCount > 0 && "is-active")}
             >
               <Filter className="size-4" />
               {activeFilterCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
+                <span
+                  className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center text-[10px] font-medium text-white"
+                  style={{ background: "var(--vw-color-accent-500)", borderRadius: "var(--vw-radius-full)" }}
+                >
                   {activeFilterCount}
                 </span>
               )}
@@ -66,34 +65,51 @@ export default function Landing({ platform, createMode = "agent" }: { platform?:
       </div>
 
       <main className="flex-1 overflow-y-auto px-6 py-5">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((card) => (
+        <div className="vw-grid vw-grid-cols-auto-320 vw-gap-xl">
+          {filtered.map((card) => {
+            const { Icon } = getCardVisual(card.title);
+            return (
             <button
               key={card.id}
               onClick={() => navigate(`/app/${card.id}`, { state: { from: location.pathname } })}
-              className="group flex flex-col rounded-xl border border-border/60 bg-card p-5 text-left shadow-[0_1px_2px_rgba(15,23,42,0.04),0_4px_16px_-2px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(15,23,42,0.06),0_12px_28px_-4px_rgba(15,23,42,0.14)]"
+              className="vw-card-section vw-card--clickable vw-flex vw-flex-col h-full text-left"
             >
-              <div className="flex size-9 items-center justify-center rounded-full bg-foreground/90">
-                <Grid2x2 className="size-4 text-background" />
+              <div
+                className="vw-flex vw-items-center vw-gap-sm"
+                style={{ minHeight: "calc(var(--vw-font-heading-md) * var(--vw-line-heading-md) * 2)" }}
+              >
+                <div className="vw-card-icon-lg vw-chip vw-chip--neutral shrink-0">
+                  <Icon className="size-6" strokeWidth={2.25} />
+                </div>
+                <h3 className="vw-card-title line-clamp-2">{card.title}</h3>
               </div>
 
-              <h3 className="mt-4 text-base font-semibold text-foreground">{card.title}</h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              <p
+                className="vw-card-description line-clamp-3"
+                style={{
+                  marginTop: "var(--vw-space-sm)",
+                  minHeight: "calc(var(--vw-font-description) * var(--vw-line-description) * 3)",
+                }}
+              >
                 {card.description.replace(/\*\*/g, "")}
               </p>
 
-              <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <User className="size-3.5" />
-                  {authorFullName(card.author)}
+              <div
+                className="vw-card-footer-divider vw-flex vw-items-center vw-justify-between"
+                style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)", marginTop: "var(--vw-space-lg)" }}
+              >
+                <span className="vw-flex vw-items-center vw-gap-xs" style={{ minWidth: 0, flex: "1 1 auto" }}>
+                  <User className="size-3.5 shrink-0" />
+                  <span className="truncate">{authorFullName(card.author)}</span>
                 </span>
-                <span className="flex items-center gap-1.5">
+                <span className="vw-flex vw-items-center vw-gap-xs shrink-0">
                   <Clock className="size-3.5" />
                   {timeAgo(card.minutesAgo)}
                 </span>
               </div>
             </button>
-          ))}
+            );
+          })}
         </div>
       </main>
 

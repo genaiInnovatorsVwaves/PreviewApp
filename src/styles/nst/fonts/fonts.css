@@ -1,0 +1,36 @@
+/* ============================================================
+   Vision Waves / NST Design System — self-hosted Poppins
+   Poppins is the ONLY dashboard font (see the DS rules). It is
+   self-hosted here (latin subset, weights 300/400/500/600) so every
+   design renders on-brand even when the render sandbox blocks external
+   font hosts. This is @imported first from ../styles.css.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./poppins-latin-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./poppins-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./poppins-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./poppins-latin-600-normal.woff2') format('woff2');
+}

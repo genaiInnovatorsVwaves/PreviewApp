@@ -19,17 +19,21 @@ export function StageStepper({ stage, onStageChange }: { stage: Stage; onStageCh
             <button
               type="button"
               onClick={() => onStageChange(s.key)}
-              className={cn(
-                "flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all",
-                isActive
-                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                  : "border border-border bg-card text-muted-foreground hover:bg-secondary hover:text-foreground"
-              )}
+              className={cn("vw-chip is-strong is-clickable whitespace-nowrap", !isActive && "vw-chip--neutral")}
+              style={{
+                fontSize: "var(--vw-font-label-md)",
+                padding: "8px 16px",
+                ...(isActive
+                  ? { background: "var(--color-primary, var(--vw-color-accent-500))", color: "var(--vw-color-white)" }
+                  : {}),
+              }}
             >
               <Icon className="size-4" />
               {s.label}
             </button>
-            {i < STAGES.length - 1 && <div className="mx-2 h-px w-6 shrink-0 bg-border sm:w-10" />}
+            {i < STAGES.length - 1 && (
+              <div className="mx-2 h-px w-6 shrink-0 sm:w-10" style={{ background: "var(--vw-color-gray-200)" }} />
+            )}
           </div>
         );
       })}

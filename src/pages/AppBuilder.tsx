@@ -43,9 +43,9 @@ export default function AppBuilder() {
 
   if (!data) {
     return (
-      <div className="builder-theme flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-foreground">
-        <p className="text-sm text-muted-foreground">Application not found.</p>
-        <button onClick={() => navigate(backTo)} className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
+      <div data-theme="black" className="builder-theme flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-foreground">
+        <p style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>Application not found.</p>
+        <button onClick={() => navigate(backTo)} className="nst-btn nst-btn--filled">
           Back to catalog
         </button>
       </div>
@@ -53,19 +53,27 @@ export default function AppBuilder() {
   }
 
   return (
-    <div className="builder-theme flex h-screen flex-col bg-background text-foreground">
-      <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-border bg-card px-8 py-4 shadow-sm">
+    <div data-theme="black" className="builder-theme flex h-screen flex-col bg-background text-foreground">
+      <header
+        className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-8 py-4"
+        style={{ borderBottom: "1px solid var(--vw-color-slate-200)", background: "var(--vw-color-white)", boxShadow: "0 1px 2px rgba(0,0,0,0.04)" }}
+      >
         <div className="flex items-center gap-4 justify-self-start">
           <button
             onClick={() => navigate(backTo)}
             title="Back to catalog"
-            className="flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 transition-transform hover:scale-105"
+            className="flex size-10 items-center justify-center transition-transform hover:scale-105"
+            style={{
+              borderRadius: "var(--vw-radius-md)",
+              background: "var(--color-primary, var(--vw-color-accent-500))",
+              boxShadow: "0 4px 12px -2px rgba(0,0,0,0.2)",
+            }}
           >
-            <ArrowLeft className="size-5 text-primary-foreground" />
+            <ArrowLeft className="size-5" style={{ color: "#fff" }} />
           </button>
           <div>
-            <div className="text-xl font-bold text-foreground">{data.title}</div>
-            <div className="text-xs text-muted-foreground">Powered by CodeSingularity</div>
+            <div className="vw-card-title-lg">{data.title}</div>
+            <div style={{ fontSize: "var(--vw-font-label-sm)", color: "var(--vw-color-gray-500)" }}>Powered by CodeSingularity</div>
           </div>
         </div>
 
@@ -78,7 +86,7 @@ export default function AppBuilder() {
             type="button"
             onClick={() => window.open(data.externalPreviewUrl ?? `/preview/${data.id}`, "_blank", "noopener,noreferrer")}
             title="Open the live application preview"
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:opacity-90"
+            className="nst-btn nst-btn--filled flex items-center gap-2"
           >
             <Play className="size-4" />
             Preview

@@ -1,6 +1,9 @@
-/* NST Design System — Vision Waves enterprise UI tokens + components (nst-design-system-main) */
-@import "./styles/nst/nst-design-system.css";
-@import "./styles/nst/components.css";
+/* Vision Waves / NST Design System — imported from claude.ai/design project
+   d8a40eb6-2422-43a5-b066-482933bc55b2 ("Vision Waves Design System"). */
+@import "./styles/nst/styles.css";
+@import "./styles/nst/themes/theme-blue.css";
+@import "./styles/nst/themes/theme-black.css";
+@import "./styles/nst/themes/theme-green.css";
 
 @tailwind base;
 @tailwind components;

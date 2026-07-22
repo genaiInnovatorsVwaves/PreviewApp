@@ -5,13 +5,13 @@ import { Accordion } from "../ui/Accordion";
 import { cn } from "../../lib/utils";
 
 const typeColor: Record<string, string> = {
-  Integer: "text-blue-600",
-  String: "text-emerald-600",
-  Journal: "text-violet-600",
-  Reference: "text-amber-600",
-  DateTime: "text-pink-600",
-  Boolean: "text-cyan-600",
-  Decimal: "text-blue-600",
+  Integer: "var(--vw-color-blue-600)",
+  String: "var(--vw-color-emerald-600)",
+  Journal: "var(--vw-color-purple-600)",
+  Reference: "var(--vw-color-amber-600)",
+  DateTime: "var(--vw-color-pink-600)",
+  Boolean: "var(--vw-color-cyan-600)",
+  Decimal: "var(--vw-color-blue-600)",
 };
 
 export function DataDictionary({ data }: { data: AppData }) {
@@ -23,15 +23,16 @@ export function DataDictionary({ data }: { data: AppData }) {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <span className="text-sm text-muted-foreground">
-          Showing <span className="font-medium text-foreground">{filtered.length}</span> of{" "}
-          <span className="font-medium text-foreground">{tables.length}</span>
+        <span style={{ fontSize: "var(--vw-font-description)", color: "var(--vw-color-gray-500)" }}>
+          Showing <span style={{ fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{filtered.length}</span> of{" "}
+          <span style={{ fontWeight: 500, color: "var(--vw-color-gray-800)" }}>{tables.length}</span>
         </span>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search tables..."
-          className="w-full max-w-xs rounded-lg border border-border bg-card px-3 py-2 text-sm placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
+          className="nst-input"
+          style={{ maxWidth: "20rem" }}
         />
       </div>
 
@@ -40,40 +41,43 @@ export function DataDictionary({ data }: { data: AppData }) {
           <Accordion
             key={t.name}
             icon={
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+              <span className="vw-card-icon-md vw-chip vw-chip--info">
                 <Database className="size-4" />
               </span>
             }
             title={t.name}
             subtitle={t.description}
-            right={<span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">{t.fields.length} Fields</span>}
+            right={<span className="vw-chip vw-chip--neutral is-strong">{t.fields.length} Fields</span>}
           >
-            <div className="overflow-x-auto rounded-lg border border-border">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
+            <div className="overflow-x-auto">
+              <table className="nst-table">
+                <thead>
                   <tr>
-                    <th className="px-4 py-2.5 font-medium">Field Name</th>
-                    <th className="px-4 py-2.5 font-medium">Type</th>
-                    <th className="px-4 py-2.5 font-medium">Validation</th>
-                    <th className="px-4 py-2.5 font-medium">Analytics</th>
-                    <th className="px-4 py-2.5 font-medium">Description</th>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                    <th>Validation</th>
+                    <th>Analytics</th>
+                    <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
                   {t.fields.map((f, i) => (
-                    <tr key={i} className="border-t border-border">
-                      <td className="whitespace-nowrap px-4 py-2.5 font-mono text-xs font-medium text-foreground">
+                    <tr key={i}>
+                      <td className="nst-table-td--primary whitespace-nowrap font-mono">
                         {f.modifier && (
-                          <span className={cn("mr-1.5 rounded px-1 py-0.5 text-[10px] font-bold", f.modifier === "PK" ? "bg-amber-50 text-amber-600" : f.modifier === "FK" ? "bg-blue-50 text-blue-600" : "bg-violet-50 text-violet-600")}>
+                          <span
+                            className={cn("vw-chip is-strong mr-1.5", f.modifier === "PK" ? "vw-chip--warning" : f.modifier === "FK" ? "vw-chip--info" : "vw-chip--purple")}
+                            style={{ fontSize: "10px", padding: "1px 5px" }}
+                          >
                             {f.modifier}
                           </span>
                         )}
                         {f.name}
                       </td>
-                      <td className={cn("whitespace-nowrap px-4 py-2.5 text-xs font-medium", typeColor[f.type] ?? "text-muted-foreground")}>{f.type}</td>
-                      <td className="px-4 py-2.5 text-xs text-muted-foreground">{f.validation}</td>
-                      <td className="whitespace-nowrap px-4 py-2.5 text-xs font-medium text-rose-500">{f.analytics}</td>
-                      <td className="px-4 py-2.5 text-xs text-muted-foreground">{f.description}</td>
+                      <td className="whitespace-nowrap" style={{ fontWeight: 500, color: typeColor[f.type] ?? "var(--vw-color-gray-500)" }}>{f.type}</td>
+                      <td style={{ color: "var(--vw-color-gray-500)" }}>{f.validation}</td>
+                      <td className="whitespace-nowrap" style={{ fontWeight: 500, color: "var(--vw-color-pink-500)" }}>{f.analytics}</td>
+                      <td style={{ color: "var(--vw-color-gray-500)" }}>{f.description}</td>
                     </tr>
                   ))}
                 </tbody>
